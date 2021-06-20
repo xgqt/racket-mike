@@ -25,10 +25,11 @@
 
 (require
  racket/cmdline
+ racket/file
+ racket/list
  racket/string
  racket/system
  syntax/parse/define
- racket/list
  )
 
 
@@ -148,8 +149,10 @@
     )
   ;; --- Removal ---
   (define-rule distclean
-    (system "if [ -d $(PACKAGE-BIN-DIR) ] ; then rm -r $(PACKAGE-BIN-DIR) ; fi")
-    (system "if [ -f $(PACKAGE-ZIP) ] ; then rm $(PACKAGE-ZIP)* ; fi")
+    (when (directory-exists? (PACKAGE_BIN_DIR))
+      (delete-directory/files (PACKAGE_BIN_DIR)))
+    (when (file-exists? (PACKAGE_ZIP))
+      (delete-file (PACKAGE_ZIP)))
     )
   (define-rule clean  (distclean)
     (system "find . -depth -type d -name 'compiled' -exec rm -r {}")
