@@ -58,6 +58,10 @@
     )
   )
 
+(define (display-rules)
+  (displayln (string-join (sort (hash-keys rules) string<?) "\n"))
+  )
+
 
 (define (basename path)
   (path->string (last (explode-path path)))
@@ -199,6 +203,8 @@
    #:ps
    "Copyright (c) 2021, Maciej Barć <xgqt@riseup.net>"
    "Licensed under the GNU GPL v3 License"
+   #:multi
+   [("-r" "--rules") "Display the defined rules" (display-rules)]
    #:args targets
    (for ([target targets])
      (
