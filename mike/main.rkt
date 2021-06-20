@@ -135,7 +135,7 @@
     (make-directory* (PACKAGE_DOC_DIR))
     )
   (define-rule docs-html  (docs-dir)
-    (execute (SCRBL) "-_html" (SCRBL_FLAGS) (PACKAGE_SCRBL))
+    (execute (SCRBL) "--html" (SCRBL_FLAGS) (PACKAGE_SCRBL))
     (execute (LN)
              (string-append "../" (PACKAGE_DOC_DIR) "/" (PACKAGE_NAME) ".html")
              (string-append (PACKAGE_DOC_DIR) "/" "index.html"))
