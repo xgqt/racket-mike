@@ -65,8 +65,6 @@
     (current-directory))
   (define-var LN
     "ln -fs")
-  (define-var MKDIR
-    "mkdir -p")
   (define-var RACKET
     "racket")
   (define-var RACO
@@ -121,7 +119,7 @@
     )
   ;; --- Doumentation ---
   (define-rule docs-dir
-    (execute (MKDIR) (PACKAGE_DOC_DIR))
+    (make-directory* (PACKAGE_DOC_DIR))
     )
   (define-rule docs-html  (docs-dir)
     (execute (SCRBL) "-_html" (SCRBL_FLAGS) (PACKAGE_SCRBL))
@@ -141,7 +139,7 @@
   (define-rule docs  (docs-html) (docs-latex) (docs-markdown) (docs-text))
   ;; --- Distribution ---
   (define-rule exe  (compile)
-    (execute (MKDIR) "./bin")
+    (make-directory* "./bin")
     (execute (RACO) "exe" (EXE_FLAGS) (ENTRYPOINT))
     )
   (define-rule pkg  (clean)
