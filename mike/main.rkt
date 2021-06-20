@@ -33,11 +33,9 @@
 
 
 (define-syntax-rule (define-var name body)
-  (define name (make-parameter (if (getenv (symbol->string 'name))
-                                   (getenv (symbol->string 'name))
-                                   body
-                                   )))
-    )
+  (define name (make-parameter (or (getenv (symbol->string 'name))
+                                   body)))
+  )
 
 
 (define (execute #:verbose [verbose #t] . vs)
