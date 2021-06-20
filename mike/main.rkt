@@ -59,6 +59,19 @@
   )
 
 
+(define (basename path)
+  (path->string (last (explode-path path)))
+  )
+
+(define (delete-directory-R dirname start-path)
+  (for
+      ([dir (reverse (find-files directory-exists? start-path))])
+    (when (equal? (basename dir) dirname)
+      (delete-directory/files dir))
+    )
+  )
+
+
 (module+ main
   ;; --- SYSTEM ---
   (define-var PWD
@@ -73,7 +86,7 @@
     (string-append (RACO) "scribble"))
   ;; --- PACKAGE ---
   (define-var PACKAGE_NAME
-    (path->string (last (explode-path (PWD)))))
+    (basename (PWD)))
   (define-var PACKAGE_EXE
     (PACKAGE_NAME))
   (define-var PACKAGE_BIN_DIR
@@ -153,8 +166,8 @@
       (delete-file (PACKAGE_ZIP)))
     )
   (define-rule clean  (distclean)
-    (system "find . -depth -type d -name 'compiled' -exec rm -r {}")
-    (system "find . -depth -type d -name 'doc'      -exec rm -r {}")
+    (delete-directory-R "compiled" (PWD))
+    (delete-directory-R "doc" (PWD))
     )
   (define-rule rem
     (execute (RACO) "pkg rem" (DO_DOCS) (PACKAGE_NAME))
