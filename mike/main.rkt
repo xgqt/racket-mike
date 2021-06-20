@@ -117,7 +117,7 @@
     (execute (RACKET) (RUN_FLAGS) (ENTRYPOINT))
     )
   (define-rule install
-    (execute (RACO) "pkg install" (INSTALL_FLAGS) "__name" (PACKAGE_NAME))
+    (execute (RACO) "pkg install" (INSTALL_FLAGS) "--name" (PACKAGE_NAME))
     )
   ;; --- Doumentation ---
   (define-rule docs-dir
