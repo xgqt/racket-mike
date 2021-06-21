@@ -115,37 +115,37 @@
   (define-V RACO
     "raco")
   (define-V SCRBL
-    (string-append (V RACO) "scribble"))
+    (string-append (RACO) "scribble"))
   ;; --- PACKAGE ---
   (define-V PACKAGE_NAME
-    (basename (V PWD)))
+    (basename (PWD)))
   (define-V PACKAGE_EXE
-    (V PACKAGE_NAME))
+    (PACKAGE_NAME))
   (define-V PACKAGE_BIN_DIR
     "./bin")
   (define-V PACKAGE_DOC_DIR
     "./doc")
   (define-V PACKAGE_SCRBL
-    (string-append (V PACKAGE_NAME) "/scribblings" (V PACKAGE_NAME) ".scrbl"))
+    (string-append (PACKAGE_NAME) "/scribblings" (PACKAGE_NAME) ".scrbl"))
   (define-V PACKAGE_BIN
-    (string-append (V PACKAGE_BIN_DIR) "/" (V PACKAGE_EXE)))
+    (string-append (PACKAGE_BIN_DIR) "/" (PACKAGE_EXE)))
   (define-V PACKAGE_ZIP
-    (string-append (V PACKAGE_NAME) ".zip"))
+    (string-append (PACKAGE_NAME) ".zip"))
   ;; --- ARGUMENTS ---
   (define-V ENTRYPOINT
-    (string-append (V PACKAGE_NAME) "/main.rkt"))
+    (string-append (PACKAGE_NAME) "/main.rkt"))
   (define-V COMPILE_FLAGS
     "-v")
   (define-V RUN_FLAGS
     "")
   (define-V SCRBL_FLAGS
-    (string-append "--dest " (V PACKAGE_DOC_DIR) " ++main-xref-in"))
+    (string-append "--dest " (PACKAGE_DOC_DIR) " ++main-xref-in"))
   (define-V EXE_FLAGS
-    (string-append "--orig-exe -v -o " (V PACKAGE_BIN)))
+    (string-append "--orig-exe -v -o " (PACKAGE_BIN)))
   (define-V DO_DOCS
     "--no-docs")
   (define-V INSTALL_FLAGS
-    (string-append "--auto " (V DO_DOCS)))
+    (string-append "--auto " (DO_DOCS)))
   (define-V DEPS_FLAGS
     "--check-pkg-deps --unused-pkg-deps")
   (define-V TEST_FLAGS
@@ -154,71 +154,71 @@
   ;; --- Main ---
   (define-R all  (install) (setup) (test))
   (define-R compile
-    (execute (V RACO) "make" (V COMPILE_FLAGS) (V ENTRYPOINT))
+    (execute (RACO) "make" (COMPILE_FLAGS) (ENTRYPOINT))
     )
   (define-R run
-    (execute (V RACKET) (V RUN_FLAGS) (V ENTRYPOINT))
+    (execute (RACKET) (RUN_FLAGS) (ENTRYPOINT))
     )
   (define-R install
-    (execute (V RACO) "pkg install" (V INSTALL_FLAGS) "--name" (V PACKAGE_NAME))
+    (execute (RACO) "pkg install" (INSTALL_FLAGS) "--name" (PACKAGE_NAME))
     )
   ;; --- Doumentation ---
   (define-R docs-dir
-    (make-directory* (V PACKAGE_DOC_DIR))
+    (make-directory* (PACKAGE_DOC_DIR))
     )
   (define-R docs-html  (docs-dir)
-    (execute (V SCRBL) "--html" (V SCRBL_FLAGS) (V PACKAGE_SCRBL))
-    (execute (V LN)
-             (string-append "../" (V PACKAGE_DOC_DIR) "/" (V PACKAGE_NAME) ".html")
-             (string-append (V PACKAGE_DOC_DIR) "/" "index.html"))
+    (execute (SCRBL) "--html" (SCRBL_FLAGS) (PACKAGE_SCRBL))
+    (execute (LN)
+             (string-append "../" (PACKAGE_DOC_DIR) "/" (PACKAGE_NAME) ".html")
+             (string-append (PACKAGE_DOC_DIR) "/" "index.html"))
     )
   (define-R docs-latex  (docs-dir)
-    (execute (V SCRBL) "--latex" (V SCRBL_FLAGS) (V PACKAGE_SCRBL))
+    (execute (SCRBL) "--latex" (SCRBL_FLAGS) (PACKAGE_SCRBL))
     )
   (define-R docs-markdown  (docs-dir)
-    (execute (V SCRBL) "--markdown" (V SCRBL_FLAGS) (V PACKAGE_SCRBL))
+    (execute (SCRBL) "--markdown" (SCRBL_FLAGS) (PACKAGE_SCRBL))
     )
   (define-R docs-text  (docs-dir)
-    (execute (V SCRBL) "--text" (V SCRBL_FLAGS) (V PACKAGE_SCRBL))
+    (execute (SCRBL) "--text" (SCRBL_FLAGS) (PACKAGE_SCRBL))
     )
   (define-R docs  (docs-html) (docs-latex) (docs-markdown) (docs-text))
   ;; --- Distribution ---
   (define-R exe  (compile)
     (make-directory* "./bin")
-    (execute (V RACO) "exe" (V EXE_FLAGS) (V ENTRYPOINT))
+    (execute (RACO) "exe" (EXE_FLAGS) (ENTRYPOINT))
     )
   (define-R pkg  (clean)
-    (execute (V RACO) "pkg create --source" (V PWD))
+    (execute (RACO) "pkg create --source" (PWD))
     )
   ;; --- Removal ---
   (define-R distclean
-    (when (directory-exists? (V PACKAGE_BIN_DIR))
-      (delete-directory/files (V PACKAGE_BIN_DIR)))
-    (when (file-exists? (V PACKAGE_ZIP))
-      (delete-file (V PACKAGE_ZIP)))
+    (when (directory-exists? (PACKAGE_BIN_DIR))
+      (delete-directory/files (PACKAGE_BIN_DIR)))
+    (when (file-exists? (PACKAGE_ZIP))
+      (delete-file (PACKAGE_ZIP)))
     )
   (define-R clean  (distclean)
-    (recursively-delete "compiled" (V PWD))
-    (recursively-delete "doc" (V PWD))
+    (recursively-delete "compiled" (PWD))
+    (recursively-delete "doc" (PWD))
     )
   (define-R remove
-    (execute (V RACO) "pkg rem" (V DO_DOCS) (V PACKAGE_NAME))
+    (execute (RACO) "pkg rem" (DO_DOCS) (PACKAGE_NAME))
     )
   (define-R purge      (remove)    (clean))
   (define-R reinstall  (remove)    (install))
   (define-R resetup    (reinstall) (setup))
   ;; --- Tests ---
   (define-R setup
-    (execute (V RACO) "setup --tidy --avoid-main" (V DEPS_FLAGS) "--pkgs" (V PACKAGE_NAME))
+    (execute (RACO) "setup --tidy --avoid-main" (DEPS_FLAGS) "--pkgs" (PACKAGE_NAME))
     )
   (define-R check-deps
-    (execute (V RACO) "setup" (V DO_DOCS) (V DEPS_FLAGS) (V PACKAGE_NAME))
+    (execute (RACO) "setup" (DO_DOCS) (DEPS_FLAGS) (PACKAGE_NAME))
     )
   (define-R test-local
-    (execute (V RACO) "test" (V TEST_FLAGS) (string-append "./" (V PACKAGE_NAME)))
+    (execute (RACO) "test" (TEST_FLAGS) (string-append "./" (PACKAGE_NAME)))
     )
   (define-R test
-    (execute (V RACO) "test" (V TEST_FLAGS) "--package" (V PACKAGE_NAME))
+    (execute (RACO) "test" (TEST_FLAGS) "--package" (PACKAGE_NAME))
     )
   ;; --- Everything ---
   (define-R everything-test  (clean) (compile) (install)
