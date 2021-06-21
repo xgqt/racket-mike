@@ -35,7 +35,8 @@
 
 ;; Variables
 
-;; Variables are procedures so that they can refer to other variables
+;; TODO
+;; Variables should be procedures so that they can refer to other variables
 ;; when called, not when defined
 
 (define variables (make-hash))
