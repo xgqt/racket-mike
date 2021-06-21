@@ -38,47 +38,47 @@
 ;; Variables are procedures so that they can refer to other variables
 ;; when called, not when defined
 
-(define Vs (make-hash))
+(define variables (make-hash))
 
-(define-syntax-rule (define-V name body)
+(define-syntax-rule (define-variable name body)
   (begin
     (define (name) (or (getenv (symbol->string 'name))
                       body))
-    (hash-set! Vs (symbol->string 'name) name)
+    (hash-set! variables (symbol->string 'name) name)
     )
   )
 
 (define-syntax V
   (syntax-rules ()
     [(_ name)
-     ((hash-ref Vs (symbol->string 'name)))
+     ((hash-ref variables (symbol->string 'name)))
      ]
     [(_ name val)
-     (hash-set! Vs (symbol->string 'name) (lambda () val))
+     (hash-set! variables (symbol->string 'name) (lambda () val))
      ]
     )
   )
 
-(define (display-Vs)
+(define (display-variables)
   (displayln "+ Variables:")
-  (displayln (string-join (sort (hash-keys Vs) string<?) "\n"))
+  (displayln (string-join (sort (hash-keys variables) string<?) "\n"))
   )
 
 
 ;; Rules
 
-(define Rs (make-hash))
+(define rules (make-hash))
 
-(define-syntax-parse-rule (define-R name:id body ...)
+(define-syntax-parse-rule (define-rule name:id body ...)
   (begin
     (define (name) body ...)
-    (hash-set! Rs (symbol->string 'name) name)
+    (hash-set! rules (symbol->string 'name) name)
     )
   )
 
-(define (display-Rs)
+(define (display-rules)
   (displayln "+ Rules:")
-  (displayln (string-join (sort (hash-keys Rs) string<?) "\n"))
+  (displayln (string-join (sort (hash-keys rules) string<?) "\n"))
   )
 
 
@@ -106,124 +106,124 @@
 
 (module+ main
   ;; --- SYSTEM ---
-  (define-V PWD
+  (define-variable PWD
     (current-directory))
-  (define-V LN
+  (define-variable LN
     "ln -fs")
-  (define-V RACKET
+  (define-variable RACKET
     "racket")
-  (define-V RACO
+  (define-variable RACO
     "raco")
-  (define-V SCRBL
+  (define-variable SCRBL
     (string-append (RACO) "scribble"))
   ;; --- PACKAGE ---
-  (define-V PACKAGE_NAME
+  (define-variable PACKAGE_NAME
     (basename (PWD)))
-  (define-V PACKAGE_EXE
+  (define-variable PACKAGE_EXE
     (PACKAGE_NAME))
-  (define-V PACKAGE_BIN_DIR
+  (define-variable PACKAGE_BIN_DIR
     "./bin")
-  (define-V PACKAGE_DOC_DIR
+  (define-variable PACKAGE_DOC_DIR
     "./doc")
-  (define-V PACKAGE_SCRBL
+  (define-variable PACKAGE_SCRBL
     (string-append (PACKAGE_NAME) "/scribblings" (PACKAGE_NAME) ".scrbl"))
-  (define-V PACKAGE_BIN
+  (define-variable PACKAGE_BIN
     (string-append (PACKAGE_BIN_DIR) "/" (PACKAGE_EXE)))
-  (define-V PACKAGE_ZIP
+  (define-variable PACKAGE_ZIP
     (string-append (PACKAGE_NAME) ".zip"))
   ;; --- ARGUMENTS ---
-  (define-V ENTRYPOINT
+  (define-variable ENTRYPOINT
     (string-append (PACKAGE_NAME) "/main.rkt"))
-  (define-V COMPILE_FLAGS
+  (define-variable COMPILE_FLAGS
     "-v")
-  (define-V RUN_FLAGS
+  (define-variable RUN_FLAGS
     "")
-  (define-V SCRBL_FLAGS
+  (define-variable SCRBL_FLAGS
     (string-append "--dest " (PACKAGE_DOC_DIR) " ++main-xref-in"))
-  (define-V EXE_FLAGS
+  (define-variable EXE_FLAGS
     (string-append "--orig-exe -v -o " (PACKAGE_BIN)))
-  (define-V DO_DOCS
+  (define-variable DO_DOCS
     "--no-docs")
-  (define-V INSTALL_FLAGS
+  (define-variable INSTALL_FLAGS
     (string-append "--auto " (DO_DOCS)))
-  (define-V DEPS_FLAGS
+  (define-variable DEPS_FLAGS
     "--check-pkg-deps --unused-pkg-deps")
-  (define-V TEST_FLAGS
+  (define-variable TEST_FLAGS
     "--heartbeat --no-run-if-absent --submodule test --table")
 
   ;; --- Main ---
-  (define-R all  (install) (setup) (test))
-  (define-R compile
+  (define-rule all  (install) (setup) (test))
+  (define-rule compile
     (execute (RACO) "make" (COMPILE_FLAGS) (ENTRYPOINT))
     )
-  (define-R run
+  (define-rule run
     (execute (RACKET) (RUN_FLAGS) (ENTRYPOINT))
     )
-  (define-R install
+  (define-rule install
     (execute (RACO) "pkg install" (INSTALL_FLAGS) "--name" (PACKAGE_NAME))
     )
   ;; --- Doumentation ---
-  (define-R docs-dir
+  (define-rule docs-dir
     (make-directory* (PACKAGE_DOC_DIR))
     )
-  (define-R docs-html  (docs-dir)
+  (define-rule docs-html  (docs-dir)
     (execute (SCRBL) "--html" (SCRBL_FLAGS) (PACKAGE_SCRBL))
     (execute (LN)
              (string-append "../" (PACKAGE_DOC_DIR) "/" (PACKAGE_NAME) ".html")
              (string-append (PACKAGE_DOC_DIR) "/" "index.html"))
     )
-  (define-R docs-latex  (docs-dir)
+  (define-rule docs-latex  (docs-dir)
     (execute (SCRBL) "--latex" (SCRBL_FLAGS) (PACKAGE_SCRBL))
     )
-  (define-R docs-markdown  (docs-dir)
+  (define-rule docs-markdown  (docs-dir)
     (execute (SCRBL) "--markdown" (SCRBL_FLAGS) (PACKAGE_SCRBL))
     )
-  (define-R docs-text  (docs-dir)
+  (define-rule docs-text  (docs-dir)
     (execute (SCRBL) "--text" (SCRBL_FLAGS) (PACKAGE_SCRBL))
     )
-  (define-R docs  (docs-html) (docs-latex) (docs-markdown) (docs-text))
+  (define-rule docs  (docs-html) (docs-latex) (docs-markdown) (docs-text))
   ;; --- Distribution ---
-  (define-R exe  (compile)
+  (define-rule exe  (compile)
     (make-directory* "./bin")
     (execute (RACO) "exe" (EXE_FLAGS) (ENTRYPOINT))
     )
-  (define-R pkg  (clean)
+  (define-rule pkg  (clean)
     (execute (RACO) "pkg create --source" (PWD))
     )
   ;; --- Removal ---
-  (define-R distclean
+  (define-rule distclean
     (when (directory-exists? (PACKAGE_BIN_DIR))
       (delete-directory/files (PACKAGE_BIN_DIR)))
     (when (file-exists? (PACKAGE_ZIP))
       (delete-file (PACKAGE_ZIP)))
     )
-  (define-R clean  (distclean)
+  (define-rule clean  (distclean)
     (recursively-delete "compiled" (PWD))
     (recursively-delete "doc" (PWD))
     )
-  (define-R remove
+  (define-rule remove
     (execute (RACO) "pkg rem" (DO_DOCS) (PACKAGE_NAME))
     )
-  (define-R purge      (remove)    (clean))
-  (define-R reinstall  (remove)    (install))
-  (define-R resetup    (reinstall) (setup))
+  (define-rule purge      (remove)    (clean))
+  (define-rule reinstall  (remove)    (install))
+  (define-rule resetup    (reinstall) (setup))
   ;; --- Tests ---
-  (define-R setup
+  (define-rule setup
     (execute (RACO) "setup --tidy --avoid-main" (DEPS_FLAGS) "--pkgs" (PACKAGE_NAME))
     )
-  (define-R check-deps
+  (define-rule check-deps
     (execute (RACO) "setup" (DO_DOCS) (DEPS_FLAGS) (PACKAGE_NAME))
     )
-  (define-R test-local
+  (define-rule test-local
     (execute (RACO) "test" (TEST_FLAGS) (string-append "./" (PACKAGE_NAME)))
     )
-  (define-R test
+  (define-rule test
     (execute (RACO) "test" (TEST_FLAGS) "--package" (PACKAGE_NAME))
     )
   ;; --- Everything ---
-  (define-R everything-test  (clean) (compile) (install)
+  (define-rule everything-test  (clean) (compile) (install)
     (setup) (check-deps) (test) (purge))
-  (define-R everything-dist  (pkg) (exe))
+  (define-rule everything-dist  (pkg) (exe))
 
 
   (command-line
@@ -232,12 +232,12 @@
    "Copyright (c) 2021, Maciej Barć <xgqt@riseup.net>"
    "Licensed under the GNU GPL v3 License"
    #:multi
-   [("-R" "--rules")     "Display the defined rules"     (display-Rs)]
-   [("-V" "--variables") "Display the defined variables" (display-Vs)]
+   [("-R" "--rules")     "Display the defined rules"     (display-rules)]
+   [("-V" "--variables") "Display the defined variables" (display-variables)]
    #:args targets
    (for ([target targets])
      (
-      (hash-ref Rs target
+      (hash-ref rules target
                 (lambda () (error 'oops "No rule for target: ~a" target)))
       )
      )
