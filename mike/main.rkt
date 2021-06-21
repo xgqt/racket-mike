@@ -92,7 +92,10 @@
       ([command (string-join vs)])
     (when verbose
       (displayln (string-append "M-> " command)))
-    (system command)
+    (when (not
+           (system command))
+      (error 'failed command)
+      )
     )
   )
 
