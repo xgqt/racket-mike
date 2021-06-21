@@ -112,7 +112,7 @@
 (module+ main
   ;; --- SYSTEM ---
   (define-variable PWD
-    (current-directory))
+    (path->string (current-directory)))
   (define-variable LN
     "ln -fs")
   (define-variable RACKET
