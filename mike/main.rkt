@@ -40,10 +40,9 @@
 
 (define variables (make-hash))
 
-(define-syntax-rule (define-variable name body)
+(define-syntax-parse-rule (define-variable name:id body)
   (begin
-    (define (name) (or (getenv (symbol->string 'name))
-                      body))
+    (define (name) (or (getenv (symbol->string 'name)) body))
     (hash-set! variables (symbol->string 'name) name)
     )
   )
