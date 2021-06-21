@@ -48,20 +48,15 @@
     )
   )
 
-(define-syntax V
-  (syntax-rules ()
-    [(_ name)
-     ((hash-ref variables (symbol->string 'name)))
-     ]
-    [(_ name val)
-     (hash-set! variables (symbol->string 'name) (lambda () val))
-     ]
-    )
-  )
-
 (define (display-variables)
   (displayln "+ Variables:")
-  (displayln (string-join (sort (hash-keys variables) string<?) "\n"))
+  (let
+      ([vlst
+        (hash-map variables
+                  (lambda (key val) (string-append key "\t=\t" (val))))
+        ])
+    (displayln (string-join (sort vlst string<?) "\n"))
+    )
   )
 
 
