@@ -110,7 +110,7 @@
   (define-variable RACO
     "raco")
   (define-variable SCRBL
-    (string-append (RACO) "scribble"))
+    (string-append (RACO) " scribble"))
   ;; --- PACKAGE ---
   (define-variable PACKAGE_NAME
     (basename (PWD)))
