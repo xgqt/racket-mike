@@ -48,6 +48,17 @@
     )
   )
 
+;; ZZZ=aaa -> key = ZZZ ; val = aaa
+(define (set-variable str)
+  (let* (
+         [s   (string-split str "=")]
+         [key (first s)]
+         [val (last  s)]
+         )
+    (hash-set! variables key (lambda () val))
+    )
+  )
+
 (define (display-variables)
   (displayln "+ Variables:")
   (let
@@ -216,6 +227,9 @@
     (execute (RACO) "test" (TEST_FLAGS) "--package" (PACKAGE_NAME))
     )
   ;; --- Everything ---
+  (define-rule show-rules  (display-rules))
+  (define-rule show-variables  (display-variables))
+  (define-rule show  (show-rules) (show-variables))
   (define-rule everything-test  (clean) (compile) (install)
     (setup) (check-deps) (test) (purge))
   (define-rule everything-dist  (pkg) (exe))
@@ -229,12 +243,17 @@
    #:multi
    [("-R" "--rules")     "Display the defined rules"     (display-rules)]
    [("-V" "--variables") "Display the defined variables" (display-variables)]
-   #:args targets
-   (for ([target targets])
-     (
-      (hash-ref rules target
-                (lambda () (error 'oops "No rule for target: ~a" target)))
-      )
+   #:args args
+   (for ([arg args])
+     (if (string-contains? arg "=")
+         ;; True - set variable
+         (set-variable arg)
+         ;; False - run rule
+         (
+          (hash-ref rules arg
+                    (lambda () (error 'oops "No rule for target: ~a" arg)))
+          )
+         )
      )
    )
   )
