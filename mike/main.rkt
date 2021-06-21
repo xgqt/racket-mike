@@ -48,10 +48,6 @@
     )
   )
 
-;; (define-syntax-rule (V name)
-;;   (hash-ref Vs (symbol->string 'name))
-;;   )
-
 (define-syntax V
   (syntax-rules ()
     [(_ name)
