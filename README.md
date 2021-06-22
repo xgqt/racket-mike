@@ -1,6 +1,18 @@
 # Mike
 
-Micro Make replcement.
+<p align="center">
+    <a href="http://pkgs.racket-lang.org/package/mike">
+        <img src="https://img.shields.io/badge/raco_pkg_install-mike-aa00ff.svg">
+    </a>
+    <a href="https://archive.softwareheritage.org/browse/origin/?origin_url=https://gitlab.com/xgqt/racket-mike">
+        <img src="https://archive.softwareheritage.org/badge/origin/https://gitlab.com/xgqt/racket-mike/">
+    </a>
+    <a href="https://gitlab.com/xgqt/racket-mike/pipelines">
+        <img src="https://gitlab.com/xgqt/racket-mike/badges/master/pipeline.svg">
+    </a>
+</p>
+
+Micro Make replacement.
 
 
 ## About
