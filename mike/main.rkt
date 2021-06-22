@@ -35,15 +35,15 @@
 
 ;; Variables
 
-;; TODO
 ;; Variables should refer to other variables when called, not when defined
 
 (define variables (make-hash))
 
 (define-syntax-parse-rule (define-variable name:id body)
   (begin
-    (define (name) (or (getenv (symbol->string 'name)) body))
-    (hash-set! variables (symbol->string 'name) name)
+    (hash-set! variables (symbol->string 'name)
+               (lambda () (or (getenv (symbol->string 'name)) body)))
+    (define (name) ((hash-ref variables (symbol->string 'name))))
     )
   )
 
