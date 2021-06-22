@@ -29,7 +29,6 @@
  racket/list
  racket/string
  racket/system
- syntax/parse/define
  )
 
 
@@ -39,7 +38,7 @@
 
 (define variables (make-hash))
 
-(define-syntax-parse-rule (define-variable name:id body)
+(define-syntax-rule (define-variable name body)
   (begin
     (hash-set! variables (symbol->string 'name)
                (lambda () (or (getenv (symbol->string 'name)) body)))
@@ -74,7 +73,7 @@
 
 (define rules (make-hash))
 
-(define-syntax-parse-rule (define-rule name:id body ...)
+(define-syntax-rule (define-rule name body ...)
   (begin
     (define (name) body ...)
     (hash-set! rules (symbol->string 'name) name)
