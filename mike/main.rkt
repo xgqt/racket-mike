@@ -134,7 +134,7 @@
   (define-variable PACKAGE_DOC_DIR
     "./doc")
   (define-variable PACKAGE_SCRBL
-    (string-append (PACKAGE_NAME) "/scribblings" (PACKAGE_NAME) ".scrbl"))
+    (string-append (PACKAGE_NAME) "/scribblings" "/" (PACKAGE_NAME) ".scrbl"))
   (define-variable PACKAGE_BIN
     (string-append (PACKAGE_BIN_DIR) "/" (PACKAGE_EXE)))
   (define-variable PACKAGE_ZIP
