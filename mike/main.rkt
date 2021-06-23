@@ -42,8 +42,8 @@
    (if (null? args)
        (
         (hash-ref rules "all"
-                  (lambda () (error
-                         'oops "No rule for target: \"all\". Bug in code? ")))
+                  (lambda () (error 'oops
+                               "No rule for target: \"all\"! Bug in code?")))
         )
        (for ([arg args])
          (if (string-contains? arg "=")
