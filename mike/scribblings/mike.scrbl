@@ -78,7 +78,7 @@ The upstream repository can be found on
 Racket-Mike is released under GNU GPL, version 3 (only) license.
 
 
-@section{Project structure}
+@section{Supported project structure}
 
 The way I structure projects is that the package root is the repository root
 and the pkg is a multi-collection package.
