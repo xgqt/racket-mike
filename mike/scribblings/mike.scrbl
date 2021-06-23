@@ -55,6 +55,9 @@ project repository. That file is released into the Public Domain
 
 @subsection{Quickstart}
 
+
+@subsubsection{Raco}
+
 Install @link["https://gitlab.com/xgqt/racket-mike" "Racket-Mike"]
 from remote
 @link["https://pkgs.racket-lang.org/package/mike" "Racket package catalog"]
@@ -66,8 +69,19 @@ If you have cloned the repository instead use:
 or if you want to install @exec{mike} via itself:
 @commandline{racket ./mike/main.rkt PACKAGE_NAME=mike install setup}
 
+
+@subsubsection{PATH}
+
 After installation make sure the launch of @exec{mike}
 is available in your @envvar{PATH}.
+
+
+@subsubsection{Exe}
+
+Another way to use @exec{mike} is to create a executable binary from itself
+and then put it somewhere in @envvar{PATH}, ie.: @filepath{/usr/bin}
+@commandline{racket ./mike/main.rkt PACKAGE_NAME=mike clean exe}
+@commandline{sudo cp ./bin/mike /usr/bin}
 
 
 @subsection{Upstream}
