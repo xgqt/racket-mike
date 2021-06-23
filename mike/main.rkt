@@ -39,16 +39,23 @@
    [("-R" "--rules")     "Display the defined rules"     (display-rules)]
    [("-V" "--variables") "Display the defined variables" (display-variables)]
    #:args args
-   (for ([arg args])
-     (if (string-contains? arg "=")
-         ;; True - set variable
-         (set-variable arg)
-         ;; False - run rule
-         (
-          (hash-ref rules arg
-                    (lambda () (error 'oops "No rule for target: ~a" arg)))
-          )
+   (if (null? args)
+       (
+        (hash-ref rules "all"
+                  (lambda () (error
+                         'oops "No rule for target: \"all\". Bug in code? ")))
+        )
+       (for ([arg args])
+         (if (string-contains? arg "=")
+             ;; True - set variable
+             (set-variable arg)
+             ;; False - run rule
+             (
+              (hash-ref rules arg
+                        (lambda () (error 'oops "No rule for target: ~a" arg)))
+              )
+             )
          )
-     )
+       )
    )
   )
