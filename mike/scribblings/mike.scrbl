@@ -55,7 +55,10 @@ project repository. That file is released into the Public Domain
 
 @subsection{Quickstart}
 
-Install Racket-Mike from remote Racket package repository by executing:
+Install @link["https://gitlab.com/xgqt/racket-mike" "Racket-Mike"]
+from remote
+@link["https://pkgs.racket-lang.org/package/mike" "Racket package catalog"]
+by executing:
 @commandline{raco pkg install mike}
 
 If you have cloned the repository instead use:
