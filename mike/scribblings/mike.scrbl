@@ -215,7 +215,8 @@ will have different @envvar{PACKAGE_NAME}
 @subsubsection{Everything}
 @itemlist[
           @item{show-rules - display available rules}
-          @item{show-variables - display available variables (and what they are set to)}
+          @item{show-variables
+                - display available variables (and what they are set to)}
           @item{show - execute both @exec{show-rules} & @exec{show-variables}}
           @item{
                 everything-test - execute:
