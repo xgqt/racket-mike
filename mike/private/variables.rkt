@@ -56,9 +56,9 @@
   (let* (
          [s   (string-split str "=")]
          [key (first s)]
-         [val (last  s)]
+         [val (lambda () (last s))]
          )
-    (hash-set! variables key (lambda () val))
+    (hash-set! variables key val)
     )
   )
 
