@@ -25,7 +25,7 @@
 
 (define pkg-authors '(Maciej Barć))
 (define pkg-desc "Micro Make replcement.")
-(define version "2.0.0")
+(define version "2.1.0")
 
 (define collection 'multi)
 
