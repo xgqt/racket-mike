@@ -54,7 +54,8 @@ project repository. That file is released into the
       "Public Domain"]
 (or under
    @link["https://spdx.org/licenses/CC0-1.0.html" "CC0-1.0"]
-   if your country does not have Public Domain).
+   if your country does not have
+   @link["https://en.wikipedia.org/wiki/Public_domain" "Public Domain"]).
 
 
 @subsection{Quickstart}
