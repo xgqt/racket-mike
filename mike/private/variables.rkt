@@ -95,16 +95,22 @@
   "./bin")
 (define-variable PACKAGE_DOC_DIR
   "./doc")
-(define-variable PACKAGE_SCRBL
-  (string-append (PACKAGE_NAME) "/scribblings" "/" (PACKAGE_NAME) ".scrbl"))
 (define-variable PACKAGE_BIN
   (string-append (PACKAGE_BIN_DIR) "/" (PACKAGE_EXE)))
 (define-variable PACKAGE_ZIP
   (string-append (PACKAGE_NAME) ".zip"))
+;; COLLECTION - main collection from which the ENTRYPOINT is used
+;; this is a directory in PROJECT_ROOT/COLLECTION if this directory
+;; does not exist and instead PROJECT_ROOT is the collection,
+;; set it to COLLECTION=. on the command-line
+(define-variable COLLECTION
+  (string-append (PACKAGE_NAME)))
+(define-variable ENTRYPOINT
+  (string-append (COLLECTION) "/main.rkt"))
+(define-variable PACKAGE_SCRBL
+  (string-append (COLLECTION) "/scribblings" "/" (PACKAGE_NAME) ".scrbl"))
 
 ;; ARGUMENTS
-(define-variable ENTRYPOINT
-  (string-append (PACKAGE_NAME) "/main.rkt"))
 (define-variable COMPILE_FLAGS
   "-v")
 (define-variable RUN_FLAGS
