@@ -139,6 +139,29 @@ and the main scribble file is named @filepath{PACKAGE_NAME.scrbl}.
 @section{Command-line interface}
 
 
+@subsection{Options}
+
+Options must come before @italic{variables} and @italic{targets},
+so they can not be overwritten by setting any @italic{variables}.
+They can only be overwritten by executing @exec{mike} with wanted variables
+exported to system environment beforehand.
+
+@exec{mike} command accepts the following command-line flags:
+
+@itemlist[
+          @item{
+                @Flag{-R} or @Flag{--rules}
+                --- display available rules,
+                the same as executing the @exec{show-rules} target
+                }
+          @item{
+                @Flag{-V} or @Flag{--variables}
+                --- display available variables (and what they are set to),
+                the same as executing the @exec{show-variables} target
+                }
+          ]
+
+
 @subsection{Variables}
 
 @italic{Variables} are used to control how @italic{rules} execute,
