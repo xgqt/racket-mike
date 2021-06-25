@@ -23,8 +23,14 @@
 #lang racket/base
 
 (require
- racket/list
- racket/string
+ (only-in racket/list
+          first
+          last
+          )
+ (only-in racket/string
+          string-join
+          string-split
+          )
  )
 
 (provide

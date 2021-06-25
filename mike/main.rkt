@@ -24,8 +24,8 @@
 
 (require
  racket/cmdline
- racket/string
- racket/vector
+ (only-in racket/string string-contains?)
+ (only-in racket/vector vector-empty?)
  "private/rules.rkt"
  )
 

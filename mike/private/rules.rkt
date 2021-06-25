@@ -23,9 +23,13 @@
 #lang racket/base
 
 (require
- racket/file
- racket/string
- racket/system
+ (only-in racket/file
+          delete-directory/files
+          find-files
+          make-directory*
+          )
+ (only-in racket/string string-join)
+ (only-in racket/system system)
  "variables.rkt"
  )
 
