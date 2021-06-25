@@ -23,7 +23,7 @@
 #lang scribble/manual
 
 
-@title[#:tag "mike - about"]{About}
+@title[#:tag "mike-about"]{About}
 
 
 I used to use @link["https://www.gnu.org/software/make/" "GNU Make"]

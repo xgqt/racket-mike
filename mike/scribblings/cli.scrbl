@@ -23,7 +23,7 @@
 #lang scribble/manual
 
 
-@title[#:tag "mike - cli"]{Command-line interface}
+@title[#:tag "mike-cli"]{Command-line interface}
 
 
 @section{Options}

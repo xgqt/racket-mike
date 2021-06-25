@@ -23,7 +23,7 @@
 #lang scribble/manual
 
 
-@title[#:tag "mike - project"]{Supported project structure}
+@title[#:tag "mike-project"]{Supported project structure}
 
 
 The way I structure projects is that the package root is the repository root
