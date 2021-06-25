@@ -36,6 +36,10 @@
   (path->string (last (explode-path path)))
   )
 
+(define (directory-is? path)
+  (if (directory-exists? path)  path  #f)
+  )
+
 
 ;; Variables
 
@@ -88,7 +92,11 @@
 
 ;; PACKAGE
 (define-variable PACKAGE_NAME
-  (basename (PWD)))
+  (cond
+    [(directory-is? (string-trim (basename (PWD)) "racket-"))]
+    [else (basename (PWD))]
+    )
+  )
 (define-variable PACKAGE_EXE
   (PACKAGE_NAME))
 (define-variable PACKAGE_BIN_DIR
@@ -104,7 +112,11 @@
 ;; does not exist and instead PROJECT_ROOT is the collection,
 ;; set it to COLLECTION=. on the command-line
 (define-variable COLLECTION
-  (string-append (PACKAGE_NAME)))
+  (cond
+    [(directory-is? (PACKAGE_NAME))]
+    [else "."]
+    )
+   )
 (define-variable ENTRYPOINT
   (string-append (COLLECTION) "/main.rkt"))
 (define-variable PACKAGE_SCRBL
