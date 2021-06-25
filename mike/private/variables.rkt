@@ -30,6 +30,7 @@
  (only-in racket/string
           string-join
           string-split
+          string-trim
           )
  )
 
