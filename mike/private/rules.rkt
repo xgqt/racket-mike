@@ -130,7 +130,7 @@
   (recursively-delete "doc" (PWD))
   )
 (define-rule remove
-  (execute (RACO) "pkg rem" (DO_DOCS) (PACKAGE_NAME))
+  (execute (RACO) "pkg remove" (DO_DOCS) (PACKAGE_NAME))
   )
 (define-rule purge      (remove)    (clean))
 (define-rule reinstall  (remove)    (install))
