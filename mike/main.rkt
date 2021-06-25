@@ -25,6 +25,7 @@
 (require
  racket/cmdline
  racket/string
+ racket/vector
  "private/rules.rkt"
  )
 
@@ -39,12 +40,16 @@
    [("-R" "--rules")     "Display the defined rules"     (display-rules)]
    [("-V" "--variables") "Display the defined variables" (display-variables)]
    #:args args
-   (if (null? args)
+   (if (vector-empty? (current-command-line-arguments))
+       ;; If no command-line arguments (or flags) are given,
+       ;; then run the "compile" target
        (
-        (hash-ref rules "all"
-                  (lambda () (error 'oops
-                               "No rule for target: \"all\"! Bug in code?")))
+        (hash-ref
+         rules "compile"
+         (lambda () (error 'oops "No rule for target: \"compile\"! Bug in code?"))
+         )
         )
+       ;; For non-flag arguments
        (for ([arg args])
          (if (string-contains? arg "=")
              ;; True - set variable
