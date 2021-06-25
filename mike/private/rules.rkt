@@ -94,9 +94,8 @@
   )
 (define-rule docs-html  (docs-dir)
   (execute (SCRBL) "--html" (SCRBL_FLAGS) (PACKAGE_SCRBL))
-  (execute (LN)
-           (string-append "../" (PACKAGE_DOC_DIR) "/" (PACKAGE_NAME) ".html")
-           (string-append (PACKAGE_DOC_DIR) "/" "index.html"))
+  (execute "cd" (PACKAGE_DOC_DIR) "&&"
+           (LN) (string-append (PACKAGE_NAME) ".html") "index.html")
   )
 (define-rule docs-latex  (docs-dir)
   (execute (SCRBL) "--latex" (SCRBL_FLAGS) (PACKAGE_SCRBL))
