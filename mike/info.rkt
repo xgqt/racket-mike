@@ -33,4 +33,4 @@
 
 (define scribblings
   '(("scribblings/mike.scrbl"
-     () (tool) "mike")))
+     (multi-page) (tool) "mike")))
