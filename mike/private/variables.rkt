@@ -94,6 +94,7 @@
 (define-variable PACKAGE_NAME
   (cond
     [(directory-is? (string-trim (basename (PWD)) "racket-"))]
+    [(directory-is? (string-trim (basename (PWD)) "scheme-"))]
     [else (basename (PWD))]
     )
   )
