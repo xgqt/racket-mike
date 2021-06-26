@@ -43,5 +43,5 @@ to run that interface should be named
 Generated binary (@exec{exe} target) appears in @filepath{bin} directory
 and documentation in @exec{doc} (@exec{docs} target).
 
-Scribblings are in @filepath{PACKAGE_NAME/scribblings} direcotry
+Scribblings are in @filepath{PACKAGE_NAME/scribblings} directory
 and the main scribble file is named @filepath{PACKAGE_NAME.scrbl}.
