@@ -57,8 +57,9 @@
 
 (define-syntax-rule (define-rule name body ...)
   (begin
-    (define (name) body ...)
-    (hash-set! rules (symbol->string 'name) name)
+    (hash-set! rules (symbol->string 'name)
+               (lambda () body ...))
+    (define (name) ((hash-ref rules (symbol->string 'name))))
     )
   )
 
