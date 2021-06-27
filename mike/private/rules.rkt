@@ -30,6 +30,7 @@
           )
  (only-in racket/string string-join)
  (only-in racket/system system)
+ "compile.rkt"
  "variables.rkt"
  )
 
@@ -67,11 +68,16 @@
   )
 
 
+(define announcer (make-parameter "M-> "))
+
+(define (announce . strs)
+  (displayln (string-append (announcer) (string-join strs)))
+  )
+
 (define (execute #:verbose [verbose #t] . vs)
   (let
       ([command (string-join vs)])
-    (when verbose
-      (displayln (string-append "M-> " command)))
+    (when verbose  (announce command))
     (when (not
            (system command))
       (error 'failed command)
@@ -83,7 +89,8 @@
 ;; Main
 (define-rule all  (install) (setup) (test))
 (define-rule compile
-  (execute (RACO) "make" (COMPILE_FLAGS) (ENTRYPOINT))
+  (announce "compiling" (PWD))
+  (compile-directory (PWD))
   )
 (define-rule run
   (execute (RACKET) (RUN_FLAGS) (ENTRYPOINT))
@@ -94,6 +101,7 @@
 
 ;; Doumentation
 (define-rule docs-dir
+  (announce "creating" (PACKAGE_DOC_DIR))
   (make-directory* (PACKAGE_DOC_DIR))
   )
 (define-rule docs-html  (docs-dir)
@@ -123,12 +131,14 @@
 
 ;; Removal
 (define-rule distclean
+  (announce "removing" (PACKAGE_BIN_DIR) "and" (PACKAGE_ZIP))
   (when (directory-exists? (PACKAGE_BIN_DIR))
     (delete-directory/files (PACKAGE_BIN_DIR)))
   (when (file-exists? (PACKAGE_ZIP))
     (delete-file (PACKAGE_ZIP)))
   )
 (define-rule clean  (distclean)
+  (announce "removing compiled artifacts")
   (recursively-delete "compiled" (PWD))
   (recursively-delete "doc" (PWD))
   )
