@@ -36,9 +36,7 @@
 
 (provide
  (all-defined-out)
- variables
- set-variable
- display-variables
+ (all-from-out "variables.rkt")
  )
 
 
