@@ -108,7 +108,10 @@ will have different @envvar{PACKAGE_NAME}
 @subsection{Main}
 @itemlist[
           @item{all --- execute: install, setup & test}
-          @item{compile --- compile the @envvar{ENTRYPOINT}}
+          @item{
+                compile --- compile the @envvar{PWD} directory
+                (which is @racket[(current-directory)] unless overwritten)
+                }
           @item{run --- run the @envvar{ENTRYPOINT}}
           @item{install --- install the package}
           ]
