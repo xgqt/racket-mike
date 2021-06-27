@@ -131,8 +131,6 @@
   (string-append (COLLECTION) "/scribblings" "/" (PACKAGE_NAME) ".scrbl"))
 
 ;; ARGUMENTS
-(define-variable COMPILE_FLAGS
-  "-v")
 (define-variable RUN_FLAGS
   "")
 (define-variable SCRBL_FLAGS
