@@ -98,7 +98,7 @@
   (execute (RACO) "pkg install" (INSTALL_FLAGS) "--name" (PACKAGE_NAME))
   )
 
-;; Doumentation
+;; Documentation
 (define-rule docs-dir
   (announce "creating" (PACKAGE_DOC_DIR))
   (make-directory* (PACKAGE_DOC_DIR))
