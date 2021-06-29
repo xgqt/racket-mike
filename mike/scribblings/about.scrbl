@@ -77,12 +77,6 @@ or if you already have @exec{mike} installed and you wish to update it:
 @commandline{mike PACKAGE_NAME=mike reinstall setup}
 
 
-@subsection{PATH}
-
-After installation make sure the launch of @exec{mike}
-is available in your @envvar{PATH}.
-
-
 @subsection{Exe}
 
 Another way to use @exec{mike} is to create a executable binary from itself
@@ -90,6 +84,19 @@ and then put it in a directory included in @envvar{PATH},
 ie.: @filepath{/usr/bin}
 @commandline{racket ./mike/main.rkt PACKAGE_NAME=mike clean exe}
 @commandline{sudo cp ./bin/mike /usr/bin}
+
+
+@subsection{PATH}
+
+After installation make sure the launcher of @exec{mike}
+is available in a directory included in your @envvar{PATH}.
+
+You can also launch @exec{mike} with @exec{racket}
+using @Flag{-l}/@Flag{--lib} flag.
+
+Examples:
+@commandline{racket -l mike/main -- -h}
+@commandline{racket -l mike -- clean}
 
 
 @section{Upstream}
