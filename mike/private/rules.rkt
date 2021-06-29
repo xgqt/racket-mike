@@ -156,7 +156,7 @@
   (execute (RACO) "setup" (DO_DOCS) (DEPS_FLAGS) (PACKAGE_NAME))
   )
 (define-rule test-local
-  (execute (RACO) "test" (TEST_FLAGS) (string-append "./" (PACKAGE_NAME)))
+  (execute (RACO) "test" (TEST_FLAGS) (PWD))
   )
 (define-rule test
   (execute (RACO) "test" (TEST_FLAGS) "--package" (PACKAGE_NAME))
