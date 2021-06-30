@@ -35,9 +35,8 @@ and the Racket package is a
 The @envvar{PACKAGE_NAME} variable is initially the same
 as the name of project directory.
 
-If the package has a CLI (command-line interface) the file
-to run that interface should be named
-@filepath{PACKAGE_NAME/main.rkt}
+If the package has a CLI (command-line interface) the file to run
+that interface should be named @filepath{PACKAGE_NAME/main.rkt}
 (controlled by the @envvar{ENTRYPOINT} variable).
 
 Generated binary (@exec{exe} target) appears in @filepath{bin} directory
