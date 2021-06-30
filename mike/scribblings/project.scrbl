@@ -35,12 +35,21 @@ and the Racket package is a
 The @envvar{PACKAGE_NAME} variable is initially the same
 as the name of project directory.
 
+
+@section{Entrypoint}
+
 If the package has a CLI (command-line interface) the file to run
 that interface should be named @filepath{PACKAGE_NAME/main.rkt}
 (controlled by the @envvar{ENTRYPOINT} variable).
 
-Generated binary (@exec{exe} target) appears in @filepath{bin} directory
-and documentation in @exec{doc} (@exec{docs} target).
+
+@section{Scribblings}
 
 Scribblings are in @filepath{PACKAGE_NAME/scribblings} directory
 and the main scribble file is named @filepath{PACKAGE_NAME.scrbl}.
+
+
+@section{Artifact directories}
+
+Generated binary (@exec{exe} target) appears in @filepath{bin} directory
+and documentation in @exec{doc} (@exec{docs} target).
