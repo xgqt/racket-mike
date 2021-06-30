@@ -22,6 +22,7 @@
 
 *.dep
 *.exe
+*.tar*
 *.zip*
 *.zo
 *~
