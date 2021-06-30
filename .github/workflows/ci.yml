@@ -1,0 +1,39 @@
+---
+
+
+name: CI
+
+
+on: [push, pull_request]
+
+
+jobs:
+  build:
+    name: "Build on Racket '${{ matrix.racket-version }}' (${{ matrix.racket-variant }})"
+    runs-on: ubuntu-latest
+    strategy:
+
+      matrix:
+        racket-version: ["current"]
+        racket-variant: ["BC", "CS"]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: Bogdanp/setup-racket@v1.4
+        with:
+          architecture: x64
+          distribution: full
+          variant: ${{ matrix.racket-variant }}
+          version: ${{ matrix.racket-version }}
+
+      - name: Install
+        run: raco pkg install --auto --no-docs --name mike
+
+      - name: Setup
+        run: raco setup --check-pkg-deps --unused-pkg-deps mike
+
+      - name: Test
+        run: raco test --heartbeat -s test -t -x -p mike
+
+      - name: Run
+        run: racket -l mike compile
