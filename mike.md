@@ -148,10 +148,10 @@ beforehand.
 
 `mike` command accepts the following command-line flags:
 
-* `--R` or `-–rules` — display available rules, the same as executing
+* `--R` or `--–rules` — display available rules, the same as executing
   the `show-rules` target
 
-* `--V` or `-–variables` — display available variables (and what they
+* `--V` or `--–variables` — display available variables (and what they
   are set to), the same as executing the `show-variables` target
 
 ### 3.2. Variables
