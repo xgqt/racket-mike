@@ -35,12 +35,13 @@ before_script:
   - apt-get update
   - apt-get install -y racket sqlite3
 
+  - racket ./mike/main.rkt install clean
+
 
 test:
   stage: test
 
   script:
-    - racket ./mike/main.rkt install clean
     - racket -l mike test
 
 
@@ -50,7 +51,6 @@ pages:
     - master
 
   script:
-    - racket ./mike/main.rkt install clean
     - racket -l mike docs
     - mv doc public
 
