@@ -46,10 +46,10 @@ jobs:
           version: current
 
       - name: Install
-        run: raco pkg install --auto --no-docs --name mike
+        run: racket ./mike/main.rkt install
 
       - name: Build docs
-        run: racket -l mike docs-html
+        run: racket -l mike docs
 
       - name: Publish
         uses: peaceiris/actions-gh-pages@v3

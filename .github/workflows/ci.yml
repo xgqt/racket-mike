@@ -46,13 +46,13 @@ jobs:
           version: ${{ matrix.racket-version }}
 
       - name: Install
-        run: raco pkg install --auto --no-docs --name mike
+        run: racket ./mike/main.rkt install
 
       - name: Setup
-        run: raco setup --check-pkg-deps --unused-pkg-deps mike
+        run: racket -l mike setup
 
       - name: Test
-        run: raco test --heartbeat -s test -t -x -p mike
+        run: racket -l test
 
       - name: Run
-        run: racket -l mike compile
+        run: racket -l mike
