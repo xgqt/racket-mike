@@ -22,6 +22,7 @@
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
+  TERM: dumb
 
 stages:
   - test
@@ -39,7 +40,7 @@ test:
   stage: test
 
   script:
-    - raco pkg install --auto --no-docs --name mike
+    - racket ./mike/main.rkt install clean
     - racket -l mike test
 
 
@@ -49,8 +50,8 @@ pages:
     - master
 
   script:
-    - raco pkg install --auto --no-docs --name mike
-    - racket -l mike docs-html
+    - racket ./mike/main.rkt install clean
+    - racket -l mike docs
 
   artifacts:
     paths:
