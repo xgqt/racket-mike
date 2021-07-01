@@ -20,12 +20,15 @@
 # SPDX-License-Identifier: GPL-3.0-only
 
 
-image: debian:testing-20210208
-
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
 
 stages:
   - test
+  - pages
 
+
+image: debian:testing-20210208
 
 before_script:
   - apt-get update
@@ -34,6 +37,21 @@ before_script:
 
 test:
   stage: test
+
   script:
-    - raco pkg install --name mike
-    - raco test --collection mike
+    - raco pkg install --auto --no-docs --name mike
+    - racket -l mike test
+
+
+pages:
+  stage: pages
+  only:
+    - master
+
+  script:
+    - raco pkg install --auto --no-docs --name mike
+    - racket -l mike docs-html
+
+  artifacts:
+    paths:
+      - doc
