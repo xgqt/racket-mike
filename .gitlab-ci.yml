@@ -52,7 +52,8 @@ pages:
   script:
     - racket ./mike/main.rkt install clean
     - racket -l mike docs
+    - mv doc public
 
   artifacts:
     paths:
-      - doc
+      - public
