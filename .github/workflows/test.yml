@@ -52,7 +52,7 @@ jobs:
         run: racket -l mike setup
 
       - name: Test
-        run: racket -l test
+        run: racket -l mike test
 
       - name: Run
         run: racket -l mike
