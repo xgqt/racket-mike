@@ -92,7 +92,7 @@
   (compile-directory (PWD))
   )
 (define-rule run
-  (execute (RACKET) (RUN_FLAGS) (ENTRYPOINT))
+  (execute (RACKET) (RACKET_RUN_FLAGS) (ENTRYPOINT) (RUN_FLAGS))
   )
 (define-rule install
   (execute (RACO) "pkg install" (INSTALL_FLAGS) "--name" (PACKAGE_NAME))

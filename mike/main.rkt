@@ -49,17 +49,30 @@
          (lambda () (error 'oops "No rule for target: \"compile\"! Bug in code?"))
          )
         )
-       ;; For non-flag arguments
-       (for ([arg args])
-         (if (string-contains? arg "=")
-             ;; True - set variable
-             (set-variable arg)
-             ;; False - run rule
-             (
-              (hash-ref rules arg
-                        (lambda () (error 'oops "No rule for target: ~a" arg)))
-              )
+       ;; For provided ARGS
+       (let ([targets '()])
+         (for ([arg args])
+           (cond
+             ;; VARIABLE assignment
+             [(string-contains? arg "=")  (set-variable arg)]
+             ;; we can detect flags (ie.: -f / --f)
+             ;; since VARIABLES don't contain dashes!
+             [(string-contains? arg "-")  (append-variable "RUN_FLAGS" arg)]
+             [else
+              ;; error if wanted target does not exists
+              (hash-ref-key rules arg
+                            (lambda () (error 'oops "No rule for target: ~a" arg)))
+              ;; add ARG to TARGETS that user wants to execute
+              (set! targets (append targets `(,arg)))
+              ]
              )
+           )
+         (for ([target targets])
+           (
+            (hash-ref rules target
+                      (lambda () (error 'oops "BUG IN CODE?")))
+            )
+           )
          )
        )
    )

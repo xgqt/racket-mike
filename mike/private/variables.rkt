@@ -73,6 +73,16 @@
     )
   )
 
+;; used to append flags to RUN_FLAGS
+;; (append-variable "RUN_FLAGS" "-j 2") -> RUN_FLAGS = -j 2
+;; (append-variable "RUN_FLAGS" "-l 1") -> RUN_FLAGS = -j 2 -l 1
+(define (append-variable key str)
+  (let
+      ([s (string-append ((hash-ref variables key)) " " str)])
+    (hash-set! variables key (lambda () s))
+    )
+  )
+
 (define (display-variables)
   (displayln "+ Variables:")
   (let
@@ -131,6 +141,8 @@
   (string-append (COLLECTION) "/scribblings" "/" (PACKAGE_NAME) ".scrbl"))
 
 ;; ARGUMENTS
+(define-variable RACKET_RUN_FLAGS
+  "")
 (define-variable RUN_FLAGS
   "")
 (define-variable SCRBL_FLAGS
