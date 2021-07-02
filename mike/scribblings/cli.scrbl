@@ -37,12 +37,12 @@ exported to system environment beforehand.
 
 @itemlist[
           @item{
-                @Flag{-R} or @DFlag{--rules}
+                @Flag{-R} or @DFlag{rules}
                 --- display available rules,
                 the same as executing the @exec{show-rules} target
                 }
           @item{
-                @Flag{-V} or @DFlag{--variables}
+                @Flag{-V} or @DFlag{variables}
                 --- display available variables (and what they are set to),
                 the same as executing the @exec{show-variables} target
                 }
