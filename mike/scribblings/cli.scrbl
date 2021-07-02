@@ -62,7 +62,8 @@ Any initial variable can be overwritten by changing (exporting)
 the system environment variables (ie.: export @envvar{ASD=fgh})
 or passing the variables as one of the arguments (after options).
 
-Options passed as arguments have precedence over environment variables.
+Variables overwriting passed as arguments have precedence
+over environment variables.
 In fact when overwriting using the environment variable route
 the exported variables become initial variables.
 
@@ -86,21 +87,18 @@ Example: overwriting with arguments
 @italic{Target} is a command-line argument that triggers
 a @italic{rule} execution.
 
-The rules can also be checked by entering into the @filepath{rules.rkt} modules
-and executing @racket[(hash-keys rules)].
+For developers: The rules can also be checked by entering into the
+@filepath{rules.rkt} module and executing @racket[(hash-keys rules)].
 
-Any rule may be passed on the command-line.
-Keep in mind that only if a variable is passed before target
-the rule that target executes will have changed variables.
+Rules are first gathered and checked if they exist,
+if they do they are executed in the order specified on the command-line,
+if they do not exist an exception is raised and the program terminates.
+Because of this it is impossible to have one target executed with one value
+of variable and the other with a different value.
 
-Example: @envvar{PACKAGE_NAME} is not overwritten
+Example: @envvar{PACKAGE_NAME} will be "fgh"
 
-@commandline{mike exe PACKAGE_NAME=asd}
-
-Example: @exec{compile} and @exec{exe} targets
-will have different @envvar{PACKAGE_NAME}
-
-@commandline{mike PACKAGE_NAME=asd compile PACKAGE_NAME=zxc exe}
+@commandline{mike PACKAGE_NAME=asd show-variables PACKAGE_NAME=fgh}
 
 
 @section{Available rules}
