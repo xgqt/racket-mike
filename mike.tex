@@ -547,7 +547,7 @@
 \renewcommand{\SecRefUC}[2]{\SecRef{#1}{#2}}
 \begin{document}
 \preDoc
-\titleAndVersionAndAuthors{Mike}{8.2.0.1}{\SNumberOfAuthors{1}\SAuthor{Maciej Bar\'{c} $<$\href{mailto:xgqt@riseup.net}{xgqt@riseup{\hbox{\texttt{.}}}net}$>$}}
+\titleAndVersionAndAuthors{Mike}{8.2.0.2}{\SNumberOfAuthors{1}\SAuthor{Maciej Bar\'{c} $<$\href{mailto:xgqt@riseup.net}{xgqt@riseup{\hbox{\texttt{.}}}net}$>$}}
 \label{t:x28part_x22mikex22x29}
 
 
@@ -717,7 +717,8 @@ Any initial variable can be overwritten by changing (exporting)
 the system environment variables (ie.: export \Scribtexttt{ASD=fgh})
 or passing the variables as one of the arguments (after options).
 
-Options passed as arguments have precedence over environment variables.
+Variables overwriting passed as arguments have precedence
+over environment variables.
 In fact when overwriting using the environment variable route
 the exported variables become initial variables.
 
@@ -741,21 +742,18 @@ Example: overwriting with arguments
 \textit{Target} is a command{-}line argument that triggers
 a \textit{rule} execution.
 
-The rules can also be checked by entering into the \Scribtexttt{"rules{\hbox{\texttt{.}}}rkt"} modules
-and executing \RktPn{(}\RktSym{hash{-}keys}\Scribtexttt{ }\RktSym{rules}\RktPn{)}.
+For developers: The rules can also be checked by entering into the
+\Scribtexttt{"rules{\hbox{\texttt{.}}}rkt"} module and executing \RktPn{(}\RktSym{hash{-}keys}\Scribtexttt{ }\RktSym{rules}\RktPn{)}.
 
-Any rule may be passed on the command{-}line.
-Keep in mind that only if a variable is passed before target
-the rule that target executes will have changed variables.
+Rules are first gathered and checked if they exist,
+if they do they are executed in the order specified on the command{-}line,
+if they do not exist an exception is raised and the program terminates.
+Because of this it is impossible to have one target executed with one value
+of variable and the other with a different value.
 
-Example: \Scribtexttt{PACKAGE{\char`\_}NAME} is not overwritten
+Example: \Scribtexttt{PACKAGE{\char`\_}NAME} will be "fgh"
 
-\mbox{\hphantom{\Scribtexttt{xx}}}\Scribtexttt{mike exe PACKAGE{\char`\_}NAME=asd}
-
-Example: \Scribtexttt{compile} and \Scribtexttt{exe} targets
-will have different \Scribtexttt{PACKAGE{\char`\_}NAME}
-
-\mbox{\hphantom{\Scribtexttt{xx}}}\Scribtexttt{mike PACKAGE{\char`\_}NAME=asd compile PACKAGE{\char`\_}NAME=zxc exe}
+\mbox{\hphantom{\Scribtexttt{xx}}}\Scribtexttt{mike PACKAGE{\char`\_}NAME=asd show{-}variables PACKAGE{\char`\_}NAME=fgh}
 
 \Ssubsection{Available rules}{Available rules}\label{t:x28part_x22Availablex5frulesx22x29}
 

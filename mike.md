@@ -166,9 +166,9 @@ Any initial variable can be overwritten by changing (exporting) the
 system environment variables (ie.: export `ASD=fgh`) or passing the
 variables as one of the arguments (after options).
 
-Options passed as arguments have precedence over environment variables.
-In fact when overwriting using the environment variable route the
-exported variables become initial variables.
+Variables overwriting passed as arguments have precedence over
+environment variables. In fact when overwriting using the environment
+variable route the exported variables become initial variables.
 
 Example: overwriting with environment
 
@@ -189,20 +189,18 @@ Example: overwriting with arguments
 _Rules_ are the functions that define how _targets_ are handled.
 _Target_ is a command-line argument that triggers a _rule_ execution.
 
-The rules can also be checked by entering into the `"rules.rkt"` modules
-and executing `(hash-keys rules)`.
+For developers: The rules can also be checked by entering into the
+`"rules.rkt"` module and executing `(hash-keys rules)`.
 
-Any rule may be passed on the command-line. Keep in mind that only if a
-variable is passed before target the rule that target executes will have
-changed variables.
+Rules are first gathered and checked if they exist, if they do they are
+executed in the order specified on the command-line, if they do not
+exist an exception is raised and the program terminates. Because of this
+it is impossible to have one target executed with one value of variable
+and the other with a different value.
 
-Example: `PACKAGE_NAME` is not overwritten
+Example: `PACKAGE_NAME` will be "fgh"
 
-  `mike exe PACKAGE_NAME=asd`
-
-Example: `compile` and `exe` targets will have different `PACKAGE_NAME`
-
-  `mike PACKAGE_NAME=asd compile PACKAGE_NAME=zxc exe`
+  `mike PACKAGE_NAME=asd show-variables PACKAGE_NAME=fgh`
 
 ### 3.4. Available rules
 
