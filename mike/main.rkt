@@ -24,8 +24,11 @@
 
 (require
  racket/cmdline
- (only-in racket/string string-contains?)
  (only-in racket/vector vector-empty?)
+ (only-in racket/string
+          string-contains?
+          string-prefix?
+          )
  "private/rules.rkt"
  )
 
@@ -56,8 +59,7 @@
              ;; VARIABLE assignment
              [(string-contains? arg "=")  (set-variable arg)]
              ;; we can detect flags (ie.: -f / --f)
-             ;; since VARIABLES don't contain dashes!
-             [(string-contains? arg "-")  (append-variable "RUN_FLAGS" arg)]
+             [(string-prefix? arg "-")  (append-variable "RUN_FLAGS" arg)]
              [else
               ;; error if wanted target does not exists
               (hash-ref-key rules arg
