@@ -30,8 +30,8 @@
           )
  (only-in racket/string string-join)
  (only-in racket/system system)
- "compile.rkt"
- "ln.rkt"
+ "helpers/compile.rkt"
+ "helpers/ln.rkt"
  "variables.rkt"
  )
 
