@@ -23,13 +23,19 @@
 #lang racket/base
 
 (require
+ (only-in racket/string string-join)
+ (only-in racket/system system)
+ (only-in racket/contract
+          -> ->*
+          define/contract
+          listof
+          or/c
+          )
  (only-in racket/file
           delete-directory/files
           find-files
           make-directory*
           )
- (only-in racket/string string-join)
- (only-in racket/system system)
  "helpers/compile.rkt"
  "helpers/ln.rkt"
  "variables.rkt"
@@ -41,9 +47,9 @@
  )
 
 
-(define (recursively-delete dirname start-path)
-  (for
-      ([dir (reverse (find-files directory-exists? start-path))])
+(define/contract (recursively-delete dirname start-path)
+  (-> string? path-string? void)
+  (for ([dir (reverse (find-files directory-exists? start-path))])
     (when (equal? (basename dir) dirname)
       (delete-directory/files dir))
     )
@@ -58,7 +64,9 @@
   (begin
     (hash-set! rules (symbol->string 'name)
                (lambda () body ...))
-    (define (name) ((hash-ref rules (symbol->string 'name))))
+    (define/contract (name)
+      (-> void)
+      ((hash-ref rules (symbol->string 'name))))
     )
   )
 
@@ -70,11 +78,13 @@
 
 (define announcer (make-parameter "M-> "))
 
-(define (announce . strs)
+(define/contract (announce . strs)
+  (->* () #:rest (listof string?) void)
   (displayln (string-append (announcer) (string-join strs)))
   )
 
-(define (execute #:verbose [verbose #t] . vs)
+(define/contract (execute #:verbose [verbose #t] . vs)
+  (->* () (#:verbose boolean?) #:rest (listof string?) void)
   (let
       ([command (string-join vs)])
     (when verbose  (announce command))

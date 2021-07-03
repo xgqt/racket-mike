@@ -23,6 +23,11 @@
 #lang racket/base
 
 (require
+ (only-in racket/contract
+          ->
+          define/contract
+          or/c
+          )
  (only-in racket/list
           first
           last
@@ -34,16 +39,16 @@
           )
  )
 
-(provide
- (all-defined-out)
- )
+(provide (all-defined-out))
 
 
-(define (basename path)
+(define/contract (basename path)
+  (-> path-string? string?)
   (path->string (last (explode-path path)))
   )
 
 (define (directory-is? path)
+  (-> path-string? (or/c boolean? path-string?))
   (if (directory-exists? path)  path  #f)
   )
 
@@ -58,12 +63,15 @@
   (begin
     (hash-set! variables (symbol->string 'name)
                (lambda () (or (getenv (symbol->string 'name)) body)))
-    (define (name) ((hash-ref variables (symbol->string 'name))))
+    (define/contract (name)
+      (-> string?)
+      ((hash-ref variables (symbol->string 'name))))
     )
   )
 
 ;; ZZZ=aaa -> key = ZZZ ; val = aaa
-(define (set-variable str)
+(define/contract (set-variable str)
+  (-> string? void)
   (let* (
          [s   (string-split str "=")]
          [key (first s)]
@@ -76,7 +84,8 @@
 ;; used to append flags to RUN_FLAGS
 ;; (append-variable "RUN_FLAGS" "-j 2") -> RUN_FLAGS = -j 2
 ;; (append-variable "RUN_FLAGS" "-l 1") -> RUN_FLAGS = -j 2 -l 1
-(define (append-variable key str)
+(define/contract (append-variable key str)
+  (-> string? string? void)
   (let
       ([s (string-append ((hash-ref variables key)) " " str)])
     (hash-set! variables key (lambda () s))
@@ -134,7 +143,7 @@
     [(directory-is? (PACKAGE_NAME))]
     [else "."]
     )
-   )
+  )
 (define-variable ENTRYPOINT
   (string-append (COLLECTION) "/main.rkt"))
 (define-variable PACKAGE_SCRBL
