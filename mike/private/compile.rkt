@@ -25,10 +25,11 @@
 (require
  (only-in compiler/compiler compile-directory-zos)
  (only-in setup/getinfo get-info/full)
+ (only-in racket/contract/base contract-out ->)
  )
 
 (provide
- compile-directory
+ (contract-out [compile-directory (-> path-string? void)])
  )
 
 
