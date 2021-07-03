@@ -31,6 +31,7 @@
  (only-in racket/string string-join)
  (only-in racket/system system)
  "compile.rkt"
+ "ln.rkt"
  "variables.rkt"
  )
 
@@ -105,8 +106,8 @@
   )
 (define-rule docs-html  (docs-dir)
   (execute (SCRBL) "--html" (SCRBL_FLAGS) (PACKAGE_SCRBL))
-  (execute "cd" (PACKAGE_DOC_DIR) "&&"
-           (LN) (string-append (PACKAGE_NAME) ".html") "index.html")
+  (ln-force (PACKAGE_DOC_DIR)
+            (string-append (PACKAGE_NAME) ".html") "index.html")
   )
 (define-rule docs-latex  (docs-dir)
   (execute (SCRBL) "--latex" (SCRBL_FLAGS) (PACKAGE_SCRBL))
