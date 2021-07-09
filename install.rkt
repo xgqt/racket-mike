@@ -27,6 +27,7 @@
  "mike/private/rules.rkt"
  )
 
+
 (module+ main
   (when (member (PACKAGE_NAME) (installed-pkg-names))
     (announce (PACKAGE_NAME) "found, uninstalling" (PACKAGE_NAME) "...")
