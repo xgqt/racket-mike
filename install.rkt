@@ -29,10 +29,13 @@
 
 
 (module+ main
+  ;; Uninstall if installed
   (when (member (PACKAGE_NAME) (installed-pkg-names))
     (announce (PACKAGE_NAME) "found, uninstalling" (PACKAGE_NAME) "...")
     (remove)
     )
+
+  ;; Install
   (announce "Installing" (PACKAGE_NAME) "...")
   (install)
   )
