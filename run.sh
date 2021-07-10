@@ -25,4 +25,6 @@ set -e
 export PATH
 
 
+echo "Arguments: ${*}"
+
 exec racket ./mike/main.rkt "${@}"
