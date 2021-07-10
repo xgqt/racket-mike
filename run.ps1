@@ -17,6 +17,9 @@
 # SPDX-License-Identifier: GPL-3.0-only
 
 
+# Temporarily add to "PATH" common directories in which "racket.exe" could
+# be located. Remember to later (or now if "racket.exe" is somewhere else)
+# add the directory containing "racket.exe" to "PATH" variable.
 $env:Path += ";C:\Program Files\Racket;C:\Program Files (x86)\Racket"
 
 
