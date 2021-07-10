@@ -51,9 +51,9 @@ pages:
     - master
 
   script:
-    - racket -l mike docs
-    - mv doc public
+    - racket -l mike PACKAGE_DOC_DIR=public docs
 
   artifacts:
+    expire_in: 1 week
     paths:
       - public
