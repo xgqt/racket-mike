@@ -23,6 +23,9 @@
 $env:Path += ";C:\Program Files\Racket;C:\Program Files (x86)\Racket"
 
 
+$myroot = "${PSScriptRoot}"
+
+
 Write-Output "Arguments: ${args}"
 
-racket .\mike\main.rkt ${args}
+racket "${myroot}\mike\main.rkt" ${args}

@@ -25,6 +25,9 @@ set -e
 export PATH
 
 
+myroot="$(dirname "${0}")"
+
+
 echo "Arguments: ${*}"
 
-exec racket ./mike/main.rkt "${@}"
+exec racket "${myroot}/mike/main.rkt" "${@}"
