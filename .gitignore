@@ -27,7 +27,7 @@
 *.zo
 *~
 
+/public/
 bin/
 compiled/
 doc/
-public/
