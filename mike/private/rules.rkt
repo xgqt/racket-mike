@@ -138,12 +138,17 @@
 (define-rule pkg  (clean)
   (execute (RACO) "pkg create --source" (PWD))
   )
+(define-rule git-archive
+  (execute (GIT) "archive --output" (PACKAGE_TAR) "--format=tar HEAD" )
+  )
 
 ;; Removal
 (define-rule distclean
-  (announce "removing" (PACKAGE_BIN_DIR) "and" (PACKAGE_ZIP))
+  (announce "removing" (PACKAGE_BIN_DIR) "and" (PACKAGE_TAR) "/" (PACKAGE_ZIP))
   (when (directory-exists? (PACKAGE_BIN_DIR))
     (delete-directory/files (PACKAGE_BIN_DIR)))
+  (when (file-exists? (PACKAGE_TAR))
+    (delete-file (PACKAGE_TAR)))
   (when (file-exists? (PACKAGE_ZIP))
     (delete-file (PACKAGE_ZIP)))
   )

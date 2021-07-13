@@ -105,6 +105,8 @@
 
 
 ;; SYSTEM
+(define-variable GIT
+  "git")
 (define-variable PWD
   (path->string (current-directory)))
 (define-variable LN
@@ -132,6 +134,8 @@
   "./doc")
 (define-variable PACKAGE_BIN
   (string-append (PACKAGE_BIN_DIR) "/" (PACKAGE_EXE)))
+(define-variable PACKAGE_TAR
+  (string-append (PACKAGE_NAME) ".tar"))
 (define-variable PACKAGE_ZIP
   (string-append (PACKAGE_NAME) ".zip"))
 ;; COLLECTION - main collection from which the ENTRYPOINT is used
