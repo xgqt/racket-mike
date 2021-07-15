@@ -20,6 +20,7 @@
 # SPDX-License-Identifier: GPL-3.0-only
 
 
+*.bak
 *.dep
 *.exe
 *.tar*
