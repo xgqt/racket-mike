@@ -152,11 +152,16 @@
   (when (file-exists? (PACKAGE_ZIP))
     (delete-file (PACKAGE_ZIP)))
   )
-(define-rule clean  (distclean)
+(define-rule clean-compiled
   (announce "removing compiled artifacts")
   (recursively-delete "compiled" (PWD))
+  )
+(define-rule clean-doc
+  (announce "removing built documentation")
   (recursively-delete "doc" (PWD))
   )
+(define-rule clean  (distclean)
+  (clean-compiled) (clean-doc))
 (define-rule remove
   (execute (RACO) "pkg remove" (DO_DOCS) (PACKAGE_NAME))
   )
