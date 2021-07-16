@@ -42,8 +42,7 @@ used to do.
 
 The Makefile I used to use can be found left over in my projects or in
 the s-exp project repository. That file is released into the Public
-Domain (or under    CC0-1.0    if your country does not have    Public
-Domain).
+Domain (or under CC0-1.0 if your country does not have Public Domain).
 
 1.1. Quickstart
 

@@ -46,8 +46,8 @@ the
 [s-exp](https://gitlab.com/xgqt/s-exp/-/blob/master/buildsystems/Makefile)
 project repository. That file is released into the [Public
 Domain](https://creativecommons.org/share-your-work/public-domain/) \(or
-under    [CC0-1.0](https://spdx.org/licenses/CC0-1.0.html)    if your
-country does not have    [Public
+under [CC0-1.0](https://spdx.org/licenses/CC0-1.0.html) if your country
+does not have [Public
 Domain](https://en.wikipedia.org/wiki/Public_domain)).
 
 ### 1.1. Quickstart
