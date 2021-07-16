@@ -46,9 +46,9 @@ project repository. That file is released into the
 @link["https://creativecommons.org/share-your-work/public-domain/"
       "Public Domain"]
 (or under
-   @link["https://spdx.org/licenses/CC0-1.0.html" "CC0-1.0"]
-   if your country does not have
-   @link["https://en.wikipedia.org/wiki/Public_domain" "Public Domain"]).
+@link["https://spdx.org/licenses/CC0-1.0.html" "CC0-1.0"]
+if your country does not have
+@link["https://en.wikipedia.org/wiki/Public_domain" "Public Domain"]).
 
 
 @section{Quickstart}
