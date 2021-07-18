@@ -37,7 +37,7 @@
           make-directory*
           )
  "helpers/compile.rkt"
- "helpers/ln.rkt"
+ "helpers/index.rkt"
  "variables.rkt"
  )
 
@@ -116,8 +116,7 @@
   )
 (define-rule docs-html  (docs-dir)
   (execute (SCRBL) "--htmls" (SCRBL_FLAGS) (PACKAGE_SCRBL))
-  (ln-force (PACKAGE_DOC_DIR)
-            (string-append (PACKAGE_NAME) "/index.html") "index.html")
+  (make-index-redirect (PACKAGE_DOC_DIR) (PACKAGE_NAME))
   )
 (define-rule docs-latex  (docs-dir)
   (execute (SCRBL) "--latex" (SCRBL_FLAGS) (PACKAGE_SCRBL))

@@ -20,33 +20,47 @@
 ;; SPDX-License-Identifier: GPL-3.0-only
 
 
+#|
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="Refresh" content="0; url='./mike/index.html'"/>
+    </head>
+</html>
+|#
+
+
 #lang racket/base
 
 (require
- (only-in racket/file delete-directory/files)
- (only-in racket/contract/base contract-out ->)
+ xml
  )
 
-(provide
- (contract-out [ln       (-> path-string? path-string? path-string? void)])
- (contract-out [ln-force (-> path-string? path-string? path-string? void)])
- )
+(provide (all-defined-out))
 
-;; Wrapper for `make-file-or-directory-link'
-;; Not to be confused with natural logarithm ;P
-
-
-(define (ln in-dir origin-from link-to)
-  (parameterize ([current-directory in-dir])
-    (make-file-or-directory-link origin-from link-to)
+(define (index-redirect-xml name)
+  (document
+   ;; prolog
+   (prolog '() (document-type 'html (external-dtd "") #f) '())
+   ;; element
+   (xexpr->xml
+    `(html ((lang "en"))
+           (head
+            (meta ((http-equiv "Refresh")
+                   (content ,(string-append "0; url='./" name "/index.html'")))
+                  )
+            )
+           )
     )
+   ;; misc
+   '()
+   )
   )
 
-(define (ln-force in-dir origin-from link-to)
-  (let  ([link-wanted (build-path in-dir link-to)])
-    (when (or (directory-exists? link-wanted) (file-exists? link-wanted))
-      (delete-directory/files link-wanted)
-      )
+(define (make-index-redirect dir name)
+  (with-output-to-file
+    (build-path dir "index.html")
+    (lambda () (display-xml (index-redirect-xml name)))
     )
-  (ln in-dir origin-from link-to)
   )
