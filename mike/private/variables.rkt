@@ -159,7 +159,7 @@
 (define-variable RUN_FLAGS
   "")
 (define-variable SCRBL_FLAGS
-  (string-append "--dest " (PACKAGE_DOC_DIR) " ++main-xref-in"))
+  (string-append "--dest " (PACKAGE_DOC_DIR) " --quiet ++main-xref-in"))
 (define-variable EXE_FLAGS
   (string-append "--orig-exe -v -o " (PACKAGE_BIN)))
 (define-variable DO_DOCS
