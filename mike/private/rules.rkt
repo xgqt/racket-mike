@@ -128,6 +128,7 @@
   (execute (SCRBL) "--text" (SCRBL_FLAGS) (PACKAGE_SCRBL))
   )
 (define-rule docs  (docs-html) (docs-latex) (docs-markdown) (docs-text))
+(define-rule redocs  (clean-doc) (docs))
 
 ;; Distribution
 (define-rule exe  (compile)
