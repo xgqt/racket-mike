@@ -62,5 +62,6 @@
   (with-output-to-file
     (build-path dir "index.html")
     (lambda () (display-xml (index-redirect-xml name)))
+    #:exists 'replace
     )
   )
