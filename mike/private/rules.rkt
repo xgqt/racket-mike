@@ -111,8 +111,10 @@
 
 ;; Documentation
 (define-rule docs-dir
-  (announce "creating" (PACKAGE_DOC_DIR))
-  (make-directory* (PACKAGE_DOC_DIR))
+  (when (not (or (file-exists? (PACKAGE_DOC_DIR)) (directory-exists? (PACKAGE_DOC_DIR))))
+    (announce "creating" (PACKAGE_DOC_DIR))
+    (make-directory* (PACKAGE_DOC_DIR))
+    )
   )
 (define-rule docs-html  (docs-dir)
   (execute (SCRBL) "--htmls" (SCRBL_FLAGS) (PACKAGE_SCRBL))
