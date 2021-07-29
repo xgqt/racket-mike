@@ -126,10 +126,15 @@
 (define-rule docs-markdown  (docs-dir)
   (execute (SCRBL) "--markdown" (SCRBL_FLAGS) (PACKAGE_SCRBL))
   )
+;; To generate PDFs on Gentoo you will need dev-texlive/texlive-fontsextra
+(define-rule docs-pdf  (docs-dir)
+  (execute (SCRBL) "--pdf" (SCRBL_FLAGS) (PACKAGE_SCRBL))
+  )
 (define-rule docs-text  (docs-dir)
   (execute (SCRBL) "--text" (SCRBL_FLAGS) (PACKAGE_SCRBL))
   )
-(define-rule docs  (docs-html) (docs-latex) (docs-markdown) (docs-text))
+(define-rule docs  (docs-html) (docs-latex)
+  (docs-markdown) (docs-pdf) (docs-text))
 (define-rule redocs  (clean-doc) (docs))
 
 ;; Distribution
