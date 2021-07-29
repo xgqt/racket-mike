@@ -23,17 +23,18 @@
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
   TERM: dumb
+  PACKAGE_DOC_DIR: public
 
 stages:
   - test
   - pages
 
 
-image: debian:testing-20210208
+image: racket/racket:8.1-full
 
 before_script:
   - apt-get update
-  - apt-get install -y racket sqlite3
+  - apt-get install -y sqlite3
 
   - racket ./mike/main.rkt install clean
 
@@ -48,12 +49,14 @@ test:
 pages:
   stage: pages
   only:
-    - master
-
-  script:
-    - racket -l mike PACKAGE_DOC_DIR=public docs
-
+    changes:
+      - .gitlab-ci.yml
+      - mike/scribblings/*.scrbl
+      - mike/scribblings/*/*.scrbl
   artifacts:
     expire_in: 1 week
     paths:
       - public
+
+  script:
+    - racket -l mike docs-html
