@@ -95,6 +95,16 @@
     )
   )
 
+(define (spin . procs)
+  (let ([thds (for/list ([proc procs])
+                (thread proc)
+                )])
+    (for ([thd (in-list thds)])
+      (thread-wait thd)
+      )
+    )
+  )
+
 
 ;; Main
 (define-rule all  (install) (setup) (test))
@@ -133,8 +143,15 @@
 (define-rule docs-text  (docs-dir)
   (execute (SCRBL) "--text" (SCRBL_FLAGS) (PACKAGE_SCRBL))
   )
-(define-rule docs  (docs-html) (docs-latex)
-  (docs-markdown) (docs-pdf) (docs-text))
+(define-rule docs
+  (spin
+   (lambda () (docs-html))
+   (lambda () (docs-latex))
+   (lambda () (docs-markdown))
+   (lambda () (docs-pdf))
+   (lambda () (docs-text))
+   )
+  )
 (define-rule redocs  (clean-doc) (docs))
 
 ;; Distribution
@@ -152,12 +169,14 @@
 ;; Removal
 (define-rule distclean
   (announce "removing" (PACKAGE_BIN_DIR) "and" (PACKAGE_TAR) "/" (PACKAGE_ZIP))
-  (when (directory-exists? (PACKAGE_BIN_DIR))
-    (delete-directory/files (PACKAGE_BIN_DIR)))
-  (when (file-exists? (PACKAGE_TAR))
-    (delete-file (PACKAGE_TAR)))
-  (when (file-exists? (PACKAGE_ZIP))
-    (delete-file (PACKAGE_ZIP)))
+  (spin
+   (lambda () (when (directory-exists? (PACKAGE_BIN_DIR))
+           (delete-directory/files (PACKAGE_BIN_DIR))))
+   (lambda () (when (file-exists? (PACKAGE_TAR))
+           (delete-file (PACKAGE_TAR))))
+   (lambda () (when (file-exists? (PACKAGE_ZIP))
+           (delete-file (PACKAGE_ZIP))))
+   )
   )
 (define-rule clean-compiled
   (announce "removing compiled artifacts")
@@ -167,8 +186,14 @@
   (announce "removing built documentation")
   (recursively-delete "doc" (PWD))
   )
-(define-rule clean  (distclean)
-  (clean-compiled) (clean-doc))
+(define-rule clean
+  ;; paral
+  (spin
+   (lambda () (distclean))
+   (lambda () (clean-compiled))
+   (lambda () (clean-doc))
+   )
+  )
 (define-rule remove
   (execute (RACO) "pkg remove" (DO_DOCS) (PACKAGE_NAME))
   )
