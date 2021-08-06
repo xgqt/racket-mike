@@ -47,9 +47,9 @@
   (path->string (last (explode-path path)))
   )
 
-(define (directory-is? path)
-  (-> path-string? (or/c boolean? path-string?))
-  (if (directory-exists? path)  path  #f)
+(define/contract (file-is? path)
+  (-> path-string? (or/c #f path-string?))
+  (if (or (directory-exists? path) (file-exists? path))  path  #f)
   )
 
 
@@ -94,11 +94,8 @@
 
 (define (display-variables)
   (displayln "+ Variables:")
-  (let
-      ([vlst
-        (hash-map variables
-                  (lambda (key val) (string-append key "\t=\t" (val))))
-        ])
+  (let ([vlst (hash-map variables
+                        (lambda (key val) (string-append key "\t=\t" (val))))])
     (displayln (string-join (sort vlst string<?) "\n"))
     )
   )
@@ -121,9 +118,9 @@
 ;; PACKAGE
 (define-variable PACKAGE_NAME
   (cond
-    [(directory-is? (string-trim (basename (PWD)) "racket-"))]
-    [(directory-is? (string-trim (basename (PWD)) "scheme-"))]
-    [else (basename (PWD))]
+    [(file-is?  (string-trim (basename (PWD)) "racket-"))]
+    [(file-is?  (string-trim (basename (PWD)) "scheme-"))]
+    [else       (basename (PWD))]
     )
   )
 (define-variable PACKAGE_EXE
@@ -144,14 +141,20 @@
 ;; set it to COLLECTION=. on the command-line
 (define-variable COLLECTION
   (cond
-    [(directory-is? (PACKAGE_NAME))]
-    [else "."]
-    )
-  )
+    [(file-is?  (PACKAGE_NAME))]
+    [else       "."]
+    ))
 (define-variable ENTRYPOINT
   (string-append (COLLECTION) "/main.rkt"))
 (define-variable PACKAGE_SCRBL
-  (string-append (COLLECTION) "/scribblings" "/" (PACKAGE_NAME) ".scrbl"))
+  (cond
+    [(file-is? (string-append (PACKAGE_NAME) "-doc" "/" (PACKAGE_NAME) ".scrbl"))]
+    [(file-is? (string-append (PACKAGE_NAME) "-doc" "/main.scrbl"))]
+    [(file-is? (string-append (PACKAGE_NAME) "-doc" "/scribblings/" (PACKAGE_NAME) ".scrbl"))]
+    [(file-is? (string-append (PACKAGE_NAME) "-doc" "/scribblings/main.scrbl"))]
+    [(file-is? (string-append (COLLECTION) "/scribblings" "/main.scrbl"))]
+    [else      (string-append (COLLECTION) "/scribblings" "/" (PACKAGE_NAME) ".scrbl")]
+    ))
 
 ;; ARGUMENTS
 (define-variable RACKET_RUN_FLAGS

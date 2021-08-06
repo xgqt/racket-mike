@@ -38,7 +38,7 @@
 
   (when (eq? (system-type) 'unix)
     (check-not-false (execute #:verbose #f "true"))
-    (check-not-false (directory-is? "/"))
+    (check-not-false (file-is? "/"))
     )
 
 
