@@ -23,7 +23,7 @@
 #lang info
 
 
-(define pkg-authors '(Maciej Barć))
+(define pkg-authors '(xgqt))
 (define pkg-desc "Micro Make replcement.")
 (define version "2.3.0")
 
