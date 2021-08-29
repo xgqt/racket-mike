@@ -23,14 +23,9 @@
 #lang racket/base
 
 (require
+ racket/contract
  (only-in racket/string string-join)
  (only-in racket/system system)
- (only-in racket/contract
-          -> ->*
-          define/contract
-          listof
-          or/c
-          )
  (only-in racket/file
           delete-directory/files
           find-files
@@ -186,17 +181,10 @@
   (announce "removing built documentation")
   (recursively-delete "doc" (PWD))
   )
-(define-rule clean
-  ;; paral
-  (spin
-   (lambda () (distclean))
-   (lambda () (clean-compiled))
-   (lambda () (clean-doc))
-   )
-  )
 (define-rule remove
   (execute (RACO) "pkg remove" (DO_DOCS) (PACKAGE_NAME))
   )
+(define-rule clean      (clean-compiled) (clean-doc) (distclean))
 (define-rule purge      (remove)    (clean))
 (define-rule reinstall  (remove)    (install))
 (define-rule resetup    (reinstall) (setup))
