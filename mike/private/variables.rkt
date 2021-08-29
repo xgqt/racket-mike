@@ -23,11 +23,7 @@
 #lang racket/base
 
 (require
- (only-in racket/contract
-          ->
-          define/contract
-          or/c
-          )
+ racket/contract
  (only-in racket/list
           first
           last
