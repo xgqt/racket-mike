@@ -144,12 +144,13 @@
   (string-append (COLLECTION) "/main.rkt"))
 (define-variable PACKAGE_SCRBL
   (cond
-    [(file-is? (string-append (PACKAGE_NAME) "-doc" "/" (PACKAGE_NAME) ".scrbl"))]
+    [(file-is? (string-append (PACKAGE_NAME) "-doc" "/"                (PACKAGE_NAME) ".scrbl"))]
     [(file-is? (string-append (PACKAGE_NAME) "-doc" "/main.scrbl"))]
-    [(file-is? (string-append (PACKAGE_NAME) "-doc" "/scribblings/" (PACKAGE_NAME) ".scrbl"))]
+    [(file-is? (string-append (PACKAGE_NAME) "-doc" "/scribblings/"    (PACKAGE_NAME) ".scrbl"))]
     [(file-is? (string-append (PACKAGE_NAME) "-doc" "/scribblings/main.scrbl"))]
-    [(file-is? (string-append (COLLECTION) "/scribblings" "/main.scrbl"))]
-    [else      (string-append (COLLECTION) "/scribblings" "/" (PACKAGE_NAME) ".scrbl")]
+    [(file-is? (string-append (COLLECTION)          "/scribblings" "/" (PACKAGE_NAME) ".scrbl"))]
+    [(file-is? (string-append (COLLECTION)          "/scribblings" "/main.scrbl"))]
+    [else      (string-append (COLLECTION) "/"                         (PACKAGE_NAME) ".scrbl")]
     ))
 
 ;; ARGUMENTS
