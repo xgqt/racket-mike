@@ -150,7 +150,7 @@
     [(file-is? (string-append (PACKAGE_NAME) "-doc" "/scribblings/main.scrbl"))]
     [(file-is? (string-append (COLLECTION)          "/scribblings" "/" (PACKAGE_NAME) ".scrbl"))]
     [(file-is? (string-append (COLLECTION)          "/scribblings" "/main.scrbl"))]
-    [else      (string-append (COLLECTION) "/"                         (PACKAGE_NAME) ".scrbl")]
+    [else      (string-append (COLLECTION)          "/"                (PACKAGE_NAME) ".scrbl")]
     ))
 
 ;; ARGUMENTS
