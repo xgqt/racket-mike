@@ -28,9 +28,9 @@
 
 (define racket-launcher-names
   '("mike"))
+
 (define racket-launcher-libraries
   '("main.rkt"))
 
 (define scribblings
-  '(("scribblings/mike.scrbl"
-     (multi-page) (tool) "mike")))
+  '(("scribblings/mike.scrbl" (multi-page) (tool) "mike")))

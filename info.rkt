@@ -24,20 +24,17 @@
 
 
 (define pkg-authors '(xgqt))
+
 (define pkg-desc "Micro Make replcement.")
+
 (define version "2.3.0")
 
 (define collection 'multi)
 
 (define deps
-  '(
-    "base"
-    )
-  )
+  '("base"))
+
 (define build-deps
-  '(
-    "racket-doc"
+  '("racket-doc"
     "rackunit-lib"
-    "scribble-lib"
-    )
-  )
+    "scribble-lib"))

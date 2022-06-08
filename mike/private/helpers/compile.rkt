@@ -25,22 +25,15 @@
 (require
  (only-in compiler/compiler compile-directory-zos)
  (only-in setup/getinfo get-info/full)
- (only-in racket/contract/base contract-out ->)
- )
+ (only-in racket/contract/base contract-out ->))
 
-(provide
- (contract-out [compile-directory (-> path-string? void)])
- )
+(provide (contract-out [compile-directory (-> path-string? void)]))
 
 
 (define (compile-directory path)
   (when (not (file-exists? (build-path path "info.rkt")))
-    (error 'failed "No info.rkt file in: ~a" path)
-    )
-  (compile-directory-zos
-   (path->complete-path path)
-   (get-info/full path)
-   #:skip-doc-sources? #t
-   #:verbose #f
-   )
-  )
+    (error 'failed "No info.rkt file in: ~a" path))
+  (compile-directory-zos (path->complete-path path)
+                         (get-info/full path)
+                         #:skip-doc-sources? #t
+                         #:verbose #f))

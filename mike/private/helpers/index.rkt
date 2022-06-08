@@ -33,35 +33,24 @@
 
 #lang racket/base
 
-(require
- xml
- )
+(require xml)
 
 (provide (all-defined-out))
 
+
 (define (index-redirect-xml name)
-  (document
-   ;; prolog
-   (prolog '() (document-type 'html (external-dtd "") #f) '())
-   ;; element
-   (xexpr->xml
-    `(html ((lang "en"))
-           (head
-            (meta ((http-equiv "Refresh")
-                   (content ,(string-append "0; url='./" name "/index.html'")))
-                  )
-            )
-           )
-    )
-   ;; misc
-   '()
-   )
-  )
+  ;; prolog
+  (document (prolog '() (document-type 'html (external-dtd "") #f) '())
+            ;; element
+            (xexpr->xml `(html ((lang "en"))
+                               (head (meta ((http-equiv "Refresh")
+                                            (content ,(string-append
+                                                       "0; url='./"
+                                                       name
+                                                       "/index.html'")))))))
+            ;; misc
+            '()))
 
 (define (make-index-redirect dir name)
-  (with-output-to-file
-    (build-path dir "index.html")
-    (lambda () (display-xml (index-redirect-xml name)))
-    #:exists 'replace
-    )
-  )
+  (with-output-to-file #:exists 'replace (build-path dir "index.html")
+    (lambda () (display-xml (index-redirect-xml name)))))
