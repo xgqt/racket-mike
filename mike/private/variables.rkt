@@ -174,7 +174,7 @@
   "--no-docs")
 
 (define-variable INSTALL_FLAGS
-  (string-append "--auto --skip-installed" (DO_DOCS)))
+  (string-append "--auto --skip-installed " (DO_DOCS)))
 
 (define-variable DEPS_FLAGS
   "--check-pkg-deps --unused-pkg-deps")
