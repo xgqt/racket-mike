@@ -29,6 +29,8 @@
 
 (define version "2.3.0")
 
+(define license 'GPL-3.0-only)
+
 (define collection 'multi)
 
 (define deps
