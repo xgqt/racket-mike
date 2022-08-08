@@ -22,15 +22,15 @@
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
-  TERM: dumb
   PACKAGE_DOC_DIR: public
+  TERM: dumb
 
 stages:
   - test
   - pages
 
 
-image: racket/racket:8.1-full
+image: racket/racket:8.5-full
 
 before_script:
   - apt-get update
