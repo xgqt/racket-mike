@@ -53,4 +53,5 @@
 
 (define (make-index-redirect dir name)
   (with-output-to-file #:exists 'replace (build-path dir "index.html")
-    (lambda () (display-xml (index-redirect-xml name)))))
+    (lambda ()
+      (display-xml (index-redirect-xml name)))))

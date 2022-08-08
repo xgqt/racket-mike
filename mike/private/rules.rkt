@@ -22,21 +22,19 @@
 
 #lang racket/base
 
-(require
- racket/contract
- (only-in racket/string string-join)
- (only-in racket/system system)
- (only-in racket/file
-          delete-directory/files
-          find-files
-          make-directory*)
- "helpers/compile.rkt"
- "helpers/index.rkt"
- "variables.rkt")
+(require racket/contract
+         (only-in racket/string string-join)
+         (only-in racket/system system)
+         (only-in racket/file
+                  delete-directory/files
+                  find-files
+                  make-directory*)
+         "helpers/compile.rkt"
+         "helpers/index.rkt"
+         "variables.rkt")
 
-(provide
- (all-defined-out)
- (all-from-out "variables.rkt"))
+(provide (all-defined-out)
+         (all-from-out "variables.rkt"))
 
 
 (define/contract (recursively-delete dirname start-path)

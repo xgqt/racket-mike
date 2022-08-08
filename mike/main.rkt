@@ -22,49 +22,55 @@
 
 #lang racket/base
 
-(require
- racket/cmdline
- (only-in racket/vector vector-empty?)
- (only-in racket/string string-contains? string-prefix?)
- "private/rules.rkt")
+(require racket/cmdline
+         (only-in racket/vector vector-empty?)
+         (only-in racket/string string-contains? string-prefix?)
+         "private/rules.rkt")
 
 
 (module+ main
   (command-line
    #:program "mike"
-   #:ps "Copyright (c) 2021, Maciej Barć <xgqt@riseup.net>"
+
+   #:ps
+   ""
+   "Copyright (c) 2021, Maciej Barć <xgqt@riseup.net>"
    "Licensed under the GNU GPL v3 License"
 
-   #:multi [("-R" "--rules") "Display the defined rules" (display-rules)]
+   #:multi
+   [("-R" "--rules") "Display the defined rules" (display-rules)]
    [("-V" "--variables") "Display the defined variables" (display-variables)]
 
    #:args args
-   (if (vector-empty? (current-command-line-arguments))
-       ;; If no command-line arguments (or flags) are given,
-       ;; then run the "compile" target
-       ((hash-ref
-         rules
-         "compile"
-         (lambda ()
-           (error 'oops "No rule for target: \"compile\"! Bug in code?"))))
-       ;; For provided ARGS
-       (let ([targets '()])
-         (for ([arg args])
-           (cond
-             ;; VARIABLE assignment
-             [(string-contains? arg "=") (set-variable arg)]
-             ;; we can detect flags (ie.: -f / --f)
-             [(string-prefix? arg "-") (append-variable "RUN_FLAGS" arg)]
-             [else
-              ;; error if wanted target does not exists
-              (hash-ref-key
-               rules
-               arg
-               (lambda () (error 'oops "No rule for target: ~a" arg)))
-              ;; add ARG to TARGETS that user wants to execute
-              (set! targets (append targets `(,arg)))]))
-         (for ([target targets])
-           ((hash-ref rules
-                      target
-                      (lambda () (error 'oops "BUG IN CODE?"))))))))
-  )
+   (cond
+     [(vector-empty? (current-command-line-arguments))
+      ;; If no command-line arguments (or flags) are given,
+      ;; then run the "compile" target
+      ((hash-ref
+        rules
+        "compile"
+        (lambda ()
+          (error 'oops "No rule for target: \"compile\"! Bug in code?"))))]
+     [else
+      ;; For provided ARGS
+      (let ([targets '()])
+        (for ([arg args])
+          (cond
+            ;; VARIABLE assignment
+            [(string-contains? arg "=") (set-variable arg)]
+            ;; we can detect flags (ie.: -f / --f)
+            [(string-prefix? arg "-") (append-variable "RUN_FLAGS" arg)]
+            [else
+             ;; Error if wanted target does not exists
+             (hash-ref-key
+              rules
+              arg
+              (lambda ()
+                (error 'oops "No rule for target: ~a" arg)))
+             ;; add ARG to TARGETS that user wants to execute
+             (set! targets (append targets `(,arg)))]))
+        (for ([target targets])
+          ((hash-ref rules
+                     target
+                     (lambda ()
+                       (error 'oops "BUG IN CODE?"))))))])))

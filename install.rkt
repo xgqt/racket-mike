@@ -22,18 +22,19 @@
 
 #lang racket/base
 
-(require
- pkg/lib
- "mike/private/rules.rkt")
+(require (prefix-in pkg: pkg/lib)
+         (prefix-in mike: "mike/private/rules.rkt"))
 
 
 (module+ main
   ;; Uninstall if installed
-  (when (member (PACKAGE_NAME) (installed-pkg-names))
-    (announce (PACKAGE_NAME) "found, uninstalling" (PACKAGE_NAME) "...")
-    (remove))
+  (when (member (mike:PACKAGE_NAME) (pkg:installed-pkg-names))
+    (mike:announce (mike:PACKAGE_NAME)
+                   "found, uninstalling"
+                   (mike:PACKAGE_NAME)
+                   "...")
+    (mike:remove))
 
   ;; Install
-  (announce "Installing" (PACKAGE_NAME) "...")
-  (install)
-  )
+  (mike:announce "Installing" (mike:PACKAGE_NAME) "...")
+  (mike:install))

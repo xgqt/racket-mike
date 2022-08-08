@@ -22,9 +22,8 @@
 
 #lang racket
 
-(require
- "rules.rkt"
- "variables.rkt")
+(require "rules.rkt"
+         "variables.rkt")
 
 
 (module+ test
@@ -45,10 +44,12 @@
   (check-false (hash-empty? rules))
   (check-false (hash-empty? variables))
 
-  (hash-for-each rules (lambda (key val) (check-true (procedure? val))))
-  (hash-for-each variables (lambda (key val) (check-true (procedure? val))))
+  (for ([(_ val) (in-hash rules)])
+    (check-true (procedure? val)))
+
+  (for ([(_ val) (in-hash variables)])
+    (check-true (procedure? val)))
 
   (set-variable "ASD=asd")
   (check-true (procedure? (hash-ref variables "ASD")))
-  (check-equal? ((hash-ref variables "ASD")) "asd")
-  )
+  (check-equal? ((hash-ref variables "ASD")) "asd"))

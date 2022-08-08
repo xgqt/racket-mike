@@ -22,10 +22,9 @@
 
 #lang racket/base
 
-(require
- racket/contract
- (only-in racket/list first last)
- (only-in racket/string string-join string-split string-trim))
+(require racket/contract
+         (only-in racket/list first last)
+         (only-in racket/string string-join string-split string-trim))
 
 (provide (all-defined-out))
 
